@@ -5,7 +5,9 @@ import { Button } from "./ui/button";
 const BookCollections = () => {
   return (
     <div className="text-center w-full mb-20 mt-20">
-      <h1 className="text-6xl max-lg:text-3xl font-bold">BOOK COLLECTIONS</h1>
+      <h1 className="text-6xl max-lg:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-sky-400 to-black">
+        BOOK COLLECTIONS
+      </h1>
       <h3 className="text-xl max-lg:text-lg mt-4">
         Explore our handpicked selections ranging from timeless literature to{" "}
         <br />

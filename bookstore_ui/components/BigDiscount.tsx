@@ -4,7 +4,7 @@ import { ChevronRight } from "lucide-react";
 
 const BigDiscount = () => {
   return (
-    <div className="flex flex-col justify-center items-end bg-[url('https://cdn.prod.website-files.com/66ab8282560ac2178fdcc6c8/66ffc1a5c49c28bb3bdee817_image.png')] bg-cover bg-right h-[700px] max-xl:h-[500px] col-span-3 px-20 max-xl:px-8 rounded-4xl text-white mx-20 my-20">
+    <div className="flex flex-col justify-center items-end bg-[url('https://cdn.prod.website-files.com/66ab8282560ac2178fdcc6c8/66ffc1a5c49c28bb3bdee817_image.png')] bg-cover bg-center h-[700px] max-xl:h-[400px] col-span-3 px-20 max-xl:px-8 xl:rounded-4xl text-white lg:mx-20 my-20">
       <h2 className="text-4xl max-2xl:text-xl font-bold">
         Get 50% discount on your first order!
       </h2>

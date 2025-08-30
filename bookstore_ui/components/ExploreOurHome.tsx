@@ -5,16 +5,16 @@ import BookCardProduct_v2 from "./BookCardProduct_v2";
 
 const ExploreOurHome = () => {
   return (
-    <div>
+    <div className="bg-gradient-to-b from-blue-300 via-slate-100 to-white py-10">
       <div className="flex flex-row justify-around items-center gap-10 my-20 mx-10">
-        <h2 className="text-7xl max-lg:text-4xl font-bold">
+        <h2 className="text-7xl max-lg:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-sky-400 to-black">
           Explore Our Kids' Books
         </h2>
         <Button size="lg">
           Explore All <ChevronRight />
         </Button>
       </div>
-      <div className="grid 2xl:grid-cols-3 lg:grid-cols-2 gap-20 px-20 mb-20">
+      <div className="grid 2xl:grid-cols-3 md:grid-cols-2 lg:gap-20 max-lg:justify-center gap-5 lg:px-20 mb-20">
         <BookCardProduct_v2 />
         <BookCardProduct_v2 />
         <BookCardProduct_v2 />
