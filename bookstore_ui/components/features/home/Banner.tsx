@@ -1,7 +1,7 @@
 import React from "react";
 // import { Carousel, CarouselContent, CarouselItem } from "./ui/carousel";
 import { dataBannerHome } from "@/data/data_banner_home";
-import { Button } from "./ui/button";
+import { Button } from "../../ui/button";
 import { ChevronRight } from "lucide-react";
 // import Autoplay from "embla-carousel-autoplay";
 import { Swiper, SwiperSlide } from "swiper/react";

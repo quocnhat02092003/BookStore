@@ -7,7 +7,7 @@ import React from "react";
 //   CarouselPrevious,
 // } from "./ui/carousel";
 import { bookCategories } from "@/data/book_categories";
-import BookCardProduct from "./BookCardProduct";
+import BookCardProduct from "../../card/BookCardProduct";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";

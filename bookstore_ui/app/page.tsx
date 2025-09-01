@@ -1,11 +1,14 @@
 "use client";
-import Banner from "@/components/Banner";
-import BigDiscount from "@/components/BigDiscount";
-import BookCollections from "@/components/BookCollections";
-import CategoryHome from "@/components/CategoryHome";
-import DealOfWeek from "@/components/DealOfWeek";
-import DescriptionAndDiscount from "@/components/DescriptionAndDiscount";
-import ExploreOurHome from "@/components/ExploreOurHome";
+import Banner from "@/components/features/home/Banner";
+import BigDiscount from "@/components/features/home/BigDiscount";
+import BookCollections from "@/components/features/home/BookCollections";
+import CategoryHome from "@/components/features/home/CategoryHome";
+import DealOfWeek from "@/components/features/home/DealOfWeek";
+import DescriptionAndDiscount from "@/components/features/home/DescriptionAndDiscount";
+import ExploreOurHome from "@/components/features/home/ExploreOurHome";
+import FeedBack from "@/components/features/home/FeedBack";
+import ShipDetailHome from "@/components/features/home/ShipDetailHome";
+import TopAuthor from "@/components/features/home/TopAuthor";
 import { useEffect } from "react";
 
 export default function Home() {
@@ -22,6 +25,9 @@ export default function Home() {
       <BookCollections />
       <BigDiscount />
       <ExploreOurHome />
+      <TopAuthor />
+      <FeedBack />
+      <ShipDetailHome />
     </div>
   );
 }

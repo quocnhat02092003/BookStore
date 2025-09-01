@@ -1,7 +1,7 @@
 import React from "react";
-import { Button } from "./ui/button";
+import { Button } from "../../ui/button";
 import { ChevronRight } from "lucide-react";
-import BookCardProduct_v2 from "./BookCardProduct_v2";
+import BookCardProduct_v2 from "../../card/BookCardProduct_v2";
 
 const ExploreOurHome = () => {
   return (

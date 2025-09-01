@@ -17,7 +17,7 @@ const Header = () => {
   const [onOpenMenu, setOnOpenMenu] = React.useState<boolean>(false);
 
   return (
-    <div className="flex items-center justify-between py-4 px-8 bg-gray-100 fixed w-screen left-0 z-[999]">
+    <div className="flex items-center justify-between py-4 px-8 max-lg:px-4 bg-gray-100 fixed w-screen left-0 z-[999]">
       <img
         src="https://cdn.prod.website-files.com/66ab8282560ac2178fdcc6c8/671207dc6dd97695b9d61f2a_Logo.png"
         alt="Logo"

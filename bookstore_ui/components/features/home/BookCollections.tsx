@@ -1,6 +1,6 @@
 import React from "react";
-import BookCardProduct from "./BookCardProduct";
-import { Button } from "./ui/button";
+import BookCardProduct from "../../card/BookCardProduct";
+import { Button } from "../../ui/button";
 
 const BookCollections = () => {
   return (
