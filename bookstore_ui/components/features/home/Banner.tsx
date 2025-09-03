@@ -9,7 +9,7 @@ import { Autoplay } from "swiper/modules";
 
 const Banner = () => {
   return (
-    <div className="w-full mt-16">
+    <div className="w-full">
       <Swiper
         spaceBetween={50}
         slidesPerView={1}

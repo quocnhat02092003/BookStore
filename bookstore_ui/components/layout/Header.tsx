@@ -25,7 +25,9 @@ const Header = () => {
         className="px-4"
       />
       <ul className="max-lg:hidden flex items-center gap-6 text-slate-600 px-10">
-        <li className="cursor-pointer">Home </li>
+        <Link href="/" className="cursor-pointer">
+          Home{" "}
+        </Link>
 
         {/* Category */}
 
@@ -45,7 +47,7 @@ const Header = () => {
                   {bookCategories.map((category) => (
                     <Link
                       key={category.id}
-                      href={`/category/${category.name.toLowerCase()}`}
+                      href={`/shop/${category.name.toLowerCase()}`}
                       className="p-2 border-b hover:text-green-700 hover:border-green-700 duration-500"
                     >
                       {category.name}
@@ -63,7 +65,9 @@ const Header = () => {
             </div>
           )}
         </li>
-        <li className="cursor-pointer">Shop</li>
+        <Link href="/shop" className="cursor-pointer">
+          Shop
+        </Link>
 
         {/* Pages */}
 
@@ -135,7 +139,7 @@ const Header = () => {
                   {bookCategories.map((category) => (
                     <Link
                       key={category.id}
-                      href={`/category/${category.name.toLowerCase()}`}
+                      href={`/shop/${category.name.toLowerCase()}`}
                       className="p-2 border-b hover:text-green-700 hover:border-green-700 duration-500"
                     >
                       {category.name}

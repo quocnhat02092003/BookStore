@@ -7,7 +7,6 @@ import DealOfWeek from "@/components/features/home/DealOfWeek";
 import DescriptionAndDiscount from "@/components/features/home/DescriptionAndDiscount";
 import ExploreOurHome from "@/components/features/home/ExploreOurHome";
 import FeedBack from "@/components/features/home/FeedBack";
-import ShipDetailHome from "@/components/features/home/ShipDetailHome";
 import TopAuthor from "@/components/features/home/TopAuthor";
 import { useEffect } from "react";
 
@@ -27,7 +26,6 @@ export default function Home() {
       <ExploreOurHome />
       <TopAuthor />
       <FeedBack />
-      <ShipDetailHome />
     </div>
   );
 }

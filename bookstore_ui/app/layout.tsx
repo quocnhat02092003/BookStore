@@ -3,6 +3,7 @@ import Footer from "../components/layout/Footer";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import React from "react";
+import ShipDetailHome from "@/components/features/home/ShipDetailHome";
 
 // Import font
 const inter = Inter({
@@ -19,7 +20,8 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className + "w-screen"}>
         <Header />
-        <main>{children}</main>
+        <main className="pt-16">{children}</main>
+        <ShipDetailHome />
         <Footer />
       </body>
     </html>
