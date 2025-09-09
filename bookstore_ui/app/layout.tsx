@@ -1,9 +1,8 @@
-import Header from "../components/layout/Header";
-import Footer from "../components/layout/Footer";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import React from "react";
-import ShipDetailHome from "@/components/features/home/ShipDetailHome";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = { title: "BookStore - Buy Books Online" };
 
 // Import font
 const inter = Inter({
@@ -17,13 +16,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className + "w-screen"}>
-        <Header />
-        <main className="pt-16">{children}</main>
-        <ShipDetailHome />
-        <Footer />
-      </body>
+    <html lang="vi">
+      <body className={inter.className + "w-screen"}>{children}</body>
     </html>
   );
 }

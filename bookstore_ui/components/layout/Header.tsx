@@ -84,28 +84,36 @@ const Header = () => {
             <div className="absolute top-[70%] -left-4 bg-gray-100 shadow-md rounded-md mt-2">
               <ul className="w-48">
                 <li className="p-5 hover:bg-gray-200 rounded-t-md">
-                  <Link href="/about">About Us</Link>
+                  <Link href="about">About Us</Link>
                 </li>
                 <li className="p-5 hover:bg-gray-200">
-                  <Link href="/blog">Blog</Link>
+                  <Link href="blog">Blog</Link>
                 </li>
                 <li className="p-5 hover:bg-gray-200">
-                  <Link href="/contact">Contact</Link>
+                  <Link href="contact">Contact</Link>
                 </li>
                 <li className="p-5 hover:bg-gray-200 rounded-b-md">
-                  <Link href="/faq">FAQ</Link>
+                  <Link href="faq">FAQ</Link>
                 </li>
               </ul>
             </div>
           )}
         </li>
-        <li className="cursor-pointer">Blog</li>
-        <li className="cursor-pointer">Contact</li>
+        <Link href={"/blog"} className="cursor-pointer">
+          Blog
+        </Link>
+        <Link href="/contact" className="cursor-pointer">
+          Contact
+        </Link>
       </ul>
       <div className="flex items-center space-x-2">
         <Input className="max-lg:hidden" placeholder="Search..." />
-        <ShoppingCart />
-        <UserRound />
+        <Link href="/cart">
+          <ShoppingCart />
+        </Link>
+        <Link className="hover:text-blue-500 duration-300" href="/login">
+          <UserRound />
+        </Link>
         {!onOpenMenu ? (
           <Menu
             className="lg:hidden cursor-pointer"

@@ -42,9 +42,9 @@ const page = () => {
             <div className="flex flex-row items-center gap-2">
               <input
                 type="number"
-                min={0}
+                min={1}
                 max={999}
-                defaultValue={0}
+                defaultValue={1}
                 className="border p-2 rounded-md"
               />
               <Button

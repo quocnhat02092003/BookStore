@@ -25,7 +25,11 @@ export default function ShopLayout({
   console.log("selected", selected);
 
   React.useEffect(() => {
+    document.title = "Shop - BookStoreX";
     if (slug) {
+      document.title = `Shop ${
+        slug.charAt(0).toUpperCase() + slug.slice(1)
+      } - BookStoreX`;
       setSelected(slug); // nếu category.name là dạng viết hoa chữ đầu
     } else {
       setSelected(undefined);
