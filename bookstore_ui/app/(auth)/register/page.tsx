@@ -11,7 +11,7 @@ const page = () => {
   // Form state
 
   return (
-    <div className="flex flex-col items-center h-full justify-center bg-gradient-to-b from-blue-200 to-cyan-300 gap-5 px-10 xl:rounded-tl-2xl xl:rounded-bl-2xl max-xl:py-20 max-xl:rounded-2xl max-xl:mx-5">
+    <div className="flex flex-col items-center h-full justify-center bg-neutral-300 gap-5 px-10 xl:rounded-tl-2xl xl:rounded-bl-2xl max-xl:py-20 max-xl:rounded-2xl max-xl:mx-5">
       <img
         src="https://cdn.prod.website-files.com/66ab8282560ac2178fdcc6c8/671207dc6dd97695b9d61f2a_Logo.png"
         alt="Logo login"

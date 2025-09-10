@@ -6,10 +6,17 @@ import { ChevronRight } from "lucide-react";
 // import Autoplay from "embla-carousel-autoplay";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
+import { motion } from "motion/react";
 
 const Banner = () => {
   return (
-    <div className="w-full">
+    <motion.div
+      initial={{ y: -500 }}
+      animate={{ y: 0 }}
+      exit={{ y: 500 }}
+      transition={{ duration: 2 }}
+      className="w-full"
+    >
       <Swiper
         spaceBetween={50}
         slidesPerView={1}
@@ -20,7 +27,13 @@ const Banner = () => {
         {dataBannerHome.map((item) => (
           <SwiperSlide key={item.id} className="py-20">
             <div className="lg:flex flex-row items-center justify-around text-white px-28 gap-40 max-lg:px-14">
-              <div className="flex flex-col">
+              <motion.div
+                initial={{ x: -100 }}
+                animate={{ x: 0 }}
+                exit={{ x: 100 }}
+                transition={{ duration: 2 }}
+                className="flex flex-col"
+              >
                 <h2 className="text-3xl font-bold mb-4">{item.title}</h2>
                 <p className="text-lg max-lg:text-md">{item.description}</p>
                 <Button
@@ -29,20 +42,27 @@ const Banner = () => {
                 >
                   Explore Now <ChevronRight />
                 </Button>
-              </div>
-              <img
-                src={item.image}
-                alt={item.title}
-                className="w-[300px] mt-4 max-lg:mx-auto"
-                style={{
-                  animation: "translateImageY 2000ms infinite",
-                }}
-              />
+              </motion.div>
+              <motion.div
+                initial={{ x: 100 }}
+                animate={{ x: 0 }}
+                exit={{ x: -100 }}
+                transition={{ duration: 4 }}
+              >
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="w-[300px] mt-4 max-lg:mx-auto"
+                  style={{
+                    animation: "translateImageY 2000ms infinite",
+                  }}
+                />
+              </motion.div>
             </div>
           </SwiperSlide>
         ))}
       </Swiper>
-    </div>
+    </motion.div>
   );
 };
 
