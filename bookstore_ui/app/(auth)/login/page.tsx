@@ -1,6 +1,5 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import React from "react";
 
@@ -28,22 +27,20 @@ const page = () => {
         <Button className="w-fit">Login Now</Button>
       </div>
       <p className="text-sm">Or</p>
-      <div className="flex flex-col items-center gap-2">
-        <button className="inline-flex items-center justify-center gap-2 px-5 py-2 rounded-lg border border-black hover:bg-green-700 hover:text-white duration-300 cursor-pointer text-sm">
+      <div className="flex items-center gap-2">
+        <button className="p-2 rounded-full border border-black hover:bg-green-700 duration-300 cursor-pointer">
           <img
             width={20}
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1024px-Google_%22G%22_logo.svg.png"
             alt="google logo"
           />
-          Login with Google
         </button>
-        <button className="inline-flex items-center justify-center gap-2 px-5 py-2 rounded-lg border border-black hover:bg-blue-700 hover:text-white duration-300 cursor-pointer text-sm">
+        <button className="p-2 rounded-full border border-black hover:bg-green-700 duration-300 cursor-pointer">
           <img
             width={20}
             src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg"
             alt="facebook logo"
           />
-          Login with Facebook
         </button>
       </div>
       <p className="text-sm">
