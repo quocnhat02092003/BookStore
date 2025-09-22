@@ -1,7 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-   // typedRoutes : true
+   typedRoutes: true,
+   env: {
+      API_URL: process.env.API_URL,
+   },
 };
 
 export default nextConfig;

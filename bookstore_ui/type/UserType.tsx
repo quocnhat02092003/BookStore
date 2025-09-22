@@ -10,3 +10,16 @@ export type RegisterResponse = {
   message: string;
   user: User;
 };
+
+export type LoginResponse = {
+  message: string;
+  user: User;
+};
+
+export type DataUserResponse = {
+  id: string;
+  email: string;
+  username: string;
+  fullName: string;
+  message: string;
+};

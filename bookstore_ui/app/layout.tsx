@@ -1,8 +1,8 @@
+"use client";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import type { Metadata } from "next";
-
-export const metadata: Metadata = { title: "BookStore - Buy Books Online" };
+import { SnackbarProvider } from "notistack";
+import React from "react";
 
 // Import font
 const inter = Inter({
@@ -17,7 +17,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="vi">
-      <body className={inter.className + "w-screen"}>{children}</body>
+      <body className={inter.className + "w-screen"}>
+        <SnackbarProvider>{children}</SnackbarProvider>
+      </body>
     </html>
   );
 }

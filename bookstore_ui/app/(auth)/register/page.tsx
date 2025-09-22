@@ -1,7 +1,11 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { registerUser } from "@/service/AuthService";
 import { User } from "@/type/UserType";
+import { Loader2Icon } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { enqueueSnackbar } from "notistack";
 import React from "react";
 
 const page = () => {
@@ -10,7 +14,10 @@ const page = () => {
     document.title = "Register | BookStore App";
   }, []);
 
-  // Form state register
+  //Using router
+  const router = useRouter();
+
+  // Form state register (data, loading, error, success, policy,...)
   const [formDataRegister, setFormDataRegister] = React.useState<User>({
     id: "",
     email: "",
@@ -18,8 +25,29 @@ const page = () => {
     name: "",
     confirmPassword: "",
   });
+  const [checkPolicy, setCheckPolicy] = React.useState<boolean>(false);
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
-  console.log(formDataRegister);
+  // Handle submit form register
+  const handleSubmitFormRegister = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+      const response = await registerUser(formDataRegister);
+      enqueueSnackbar(response.message, {
+        variant: "success",
+        anchorOrigin: { vertical: "top", horizontal: "right" },
+      });
+      router.push("/login");
+      setIsLoading(false);
+    } catch (error: any) {
+      setIsLoading(false);
+      enqueueSnackbar(error.response.data.message, {
+        variant: "error",
+        anchorOrigin: { vertical: "top", horizontal: "right" },
+      });
+    }
+  };
 
   return (
     <div className="flex flex-col items-center h-full justify-center bg-neutral-300 gap-5 px-10 xl:rounded-tl-2xl xl:rounded-bl-2xl max-xl:py-20 max-xl:rounded-2xl max-xl:mx-5">
@@ -27,49 +55,70 @@ const page = () => {
         src="https://cdn.prod.website-files.com/66ab8282560ac2178fdcc6c8/671207dc6dd97695b9d61f2a_Logo.png"
         alt="Logo login"
       />
-      <div className="flex flex-col items-center">
-        <input
-          type="text"
-          placeholder="Email address"
-          className="mb-4 px-4 py-2 text-sm border border-black rounded-lg"
-          onChange={(e) => {
-            setFormDataRegister({ ...formDataRegister, email: e.target.value });
-          }}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          className="mb-4 px-4 py-2 text-sm border border-black rounded-lg "
-          onChange={(e) => {
-            setFormDataRegister({
-              ...formDataRegister,
-              password: e.target.value,
-            });
-          }}
-        />
-        <input
-          type="password"
-          placeholder="Confirm Password"
-          className="mb-4 px-4 py-2 text-sm border border-black rounded-lg "
-          onChange={(e) => {
-            setFormDataRegister({
-              ...formDataRegister,
-              confirmPassword: e.target.value,
-            });
-          }}
-        />
-        <div className="flex items-center mb-4">
-          <input type="checkbox" id="terms" />
-          <label htmlFor="terms" className="text-sm ml-2">
-            I agree to the{" "}
-            <Link href="/terms" className="hover:text-blue-600 duration-300">
-              Terms and Conditions
-            </Link>
-          </label>
+      <form onSubmit={handleSubmitFormRegister}>
+        <div className="flex flex-col items-center">
+          <input
+            type="email"
+            required
+            placeholder="Email address"
+            className="mb-4 px-4 py-2 text-sm border border-black rounded-lg"
+            onChange={(e) => {
+              setFormDataRegister({
+                ...formDataRegister,
+                email: e.target.value,
+              });
+            }}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            className="mb-4 px-4 py-2 text-sm border border-black rounded-lg "
+            onChange={(e) => {
+              setFormDataRegister({
+                ...formDataRegister,
+                password: e.target.value,
+              });
+            }}
+          />
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            className="mb-4 px-4 py-2 text-sm border border-black rounded-lg "
+            onChange={(e) => {
+              setFormDataRegister({
+                ...formDataRegister,
+                confirmPassword: e.target.value,
+              });
+            }}
+          />
+          <div className="flex items-center mb-4">
+            <input
+              type="checkbox"
+              id="terms"
+              checked={checkPolicy}
+              onChange={(e) => setCheckPolicy(e.target.checked)}
+            />
+            <label htmlFor="terms" className="text-sm ml-2">
+              I agree to the{" "}
+              <Link href="/terms" className="hover:text-blue-600 duration-300">
+                Terms and Conditions
+              </Link>
+            </label>
+          </div>
+          <Button
+            className="w-fit"
+            disabled={
+              !formDataRegister.email ||
+              !formDataRegister.password ||
+              !formDataRegister.confirmPassword ||
+              !checkPolicy ||
+              isLoading
+            }
+          >
+            {isLoading ? <Loader2Icon /> : "Register"}
+          </Button>
         </div>
-
-        <Button className="w-fit">Register Now</Button>
-      </div>
+      </form>
       <p className="text-sm">Or</p>
       <div className="flex items-center gap-2">
         <button className="p-2 rounded-full border border-black hover:bg-green-700 duration-300 cursor-pointer">
