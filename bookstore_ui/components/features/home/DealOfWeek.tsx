@@ -1,17 +1,10 @@
 import React from "react";
-// import {
-//   Carousel,
-//   CarouselContent,
-//   CarouselItem,
-//   CarouselNext,
-//   CarouselPrevious,
-// } from "./ui/carousel";
 import { bookCategories } from "@/data/book_categories";
 import BookCardProduct from "../../card/BookCardProduct";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
-import { Navigation } from "swiper/modules";
+import { bookDealsOfWeek } from "@/data/book_dealofweek";
 
 const DealOfWeek = () => {
   return (
@@ -27,15 +20,25 @@ const DealOfWeek = () => {
           spaceBetween={24}
           slidesPerView={1}
           breakpoints={{
-            1280: { slidesPerView: 4 },
-            1024: { slidesPerView: 2 },
-            640: { slidesPerView: 1 },
+            1600: { slidesPerView: 4 },
+            1280: { slidesPerView: 3 },
+            600: { slidesPerView: 2 },
+            300: { slidesPerView: 1 },
           }}
+          loop={true}
+          autoplay={{ delay: 3000 }}
           className="w-full mx-auto max-xl:max-w-3xl py-8 px-6 rounded-3xl my-6 bg-cyan-100"
         >
-          {bookCategories.map((category) => (
-            <SwiperSlide key={category.id} className="gap-4 p-8">
-              <BookCardProduct />
+          {bookDealsOfWeek.map((book) => (
+            <SwiperSlide key={book.work_id} className="gap-4 p-8">
+              <BookCardProduct
+                work_id={book.work_id}
+                authors={book.author_name}
+                title={book.title}
+                price={book.price}
+                coverImageId={book.cover_i}
+                first_publish_year={book.first_publish_year}
+              />
             </SwiperSlide>
           ))}
         </Swiper>

@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { SnackbarProvider } from "notistack";
 import React from "react";
+import { UserProvider } from "@/context/UserContext";
 
 // Import font
 const inter = Inter({
@@ -18,7 +19,9 @@ export default function RootLayout({
   return (
     <html lang="vi">
       <body className={inter.className + "w-screen"}>
-        <SnackbarProvider>{children}</SnackbarProvider>
+        <UserProvider>
+          <SnackbarProvider>{children}</SnackbarProvider>
+        </UserProvider>
       </body>
     </html>
   );

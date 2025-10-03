@@ -232,6 +232,7 @@ namespace BookStore.Controllers
                 user.Email,
                 user.FullName,
                 user.Username,
+                message = "User information retrieved successfully"
             });
         }
     }

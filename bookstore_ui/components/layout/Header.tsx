@@ -1,11 +1,19 @@
 "use client";
 import React from "react";
-import { ChevronDown, Menu, ShoppingCart, UserRound, X } from "lucide-react";
+import {
+  ChevronDown,
+  Menu,
+  ShoppingCart,
+  Smile,
+  UserRound,
+  X,
+} from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { bookCategories } from "@/data/book_categories";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { pageMenuDropdown } from "@/data/page_menu_dropdown";
+import { useUser } from "@/context/UserContext";
 
 const Header = () => {
   const [isActiveTab, setIsActiveTab] = React.useState<string>("home");
@@ -15,6 +23,9 @@ const Header = () => {
   const [isOnClickPages, setIsOnClickPages] = React.useState<boolean>(false);
 
   const [onOpenMenu, setOnOpenMenu] = React.useState<boolean>(false);
+
+  //User from useContext
+  const user = useUser();
 
   return (
     <div className="flex items-center justify-between py-4 px-8 max-lg:px-4 bg-gray-100 fixed w-screen left-0 z-[999]">
@@ -113,9 +124,18 @@ const Header = () => {
         <Link href="/cart">
           <ShoppingCart />
         </Link>
-        <Link className="hover:text-blue-500 duration-300" href="/login">
-          <UserRound />
-        </Link>
+        {!user ? (
+          <Link className="hover:text-blue-500 duration-300" href="/login">
+            <UserRound />
+          </Link>
+        ) : (
+          <Link className="hover:text-blue-500 duration-300" href="/my-account">
+            <img
+              src="https://w7.pngwing.com/pngs/205/731/png-transparent-default-avatar.png"
+              className="w-[60px]"
+            />
+          </Link>
+        )}
         {!onOpenMenu ? (
           <Menu
             className="lg:hidden cursor-pointer"
