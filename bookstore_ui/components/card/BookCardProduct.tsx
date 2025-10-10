@@ -19,14 +19,17 @@ const BookCardProduct = ({
   work_id,
 }: BookCardProductProps) => {
   return (
-    <Link href={`/product/${work_id}`} className="w-full">
+    <Link
+      href={`/product/${work_id}`}
+      className="flex flex-col items-start w-full truncate"
+    >
       <img
         src={`https://covers.openlibrary.org/b/id/${coverImageId}-L.jpg`}
         alt=""
-        className="w-full h-100 object-cover hover:scale-90 transition-transform duration-300"
+        className="w-full h-100 object-cover hover:scale-90 transition-transform duration-300 rounded-md"
       />
-      <div className="flex flex-col items-start w-full truncate">
-        <p className="text-sm text-slate-500 mt-2">
+      <div className="flex flex-col items-start truncate">
+        <p className="text-sm text-slate-500 mt-2 truncate">
           By {authors ? authors.join(", ") : "Unknown Author"}
         </p>
         <h3 className="text-lg truncate">{title}</h3>

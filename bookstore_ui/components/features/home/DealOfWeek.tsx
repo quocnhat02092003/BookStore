@@ -4,7 +4,7 @@ import BookCardProduct from "../../card/BookCardProduct";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
-import { bookDealsOfWeek } from "@/data/book_dealofweek";
+import { bookCollectionDealsOfWeek } from "@/data/book_collection/book_collection_dealofweek";
 
 const DealOfWeek = () => {
   return (
@@ -27,16 +27,16 @@ const DealOfWeek = () => {
           }}
           loop={true}
           autoplay={{ delay: 3000 }}
-          className="w-full mx-auto max-xl:max-w-3xl py-8 px-6 rounded-3xl my-6 bg-cyan-100"
+          className="w-full mx-auto max-xl:max-w-3xl py-8 px-6 rounded-3xl my-6"
         >
-          {bookDealsOfWeek.map((book) => (
+          {bookCollectionDealsOfWeek.map((book) => (
             <SwiperSlide key={book.work_id} className="gap-4 p-8">
               <BookCardProduct
                 work_id={book.work_id}
                 authors={book.author_name}
                 title={book.title}
                 price={book.price}
-                coverImageId={book.cover_i}
+                coverImageId={book.cover}
                 first_publish_year={book.first_publish_year}
               />
             </SwiperSlide>

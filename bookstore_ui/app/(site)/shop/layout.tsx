@@ -21,16 +21,13 @@ export default function ShopLayout({
     slug || undefined
   );
 
-  console.log("slug", slug);
-  console.log("selected", selected);
-
   React.useEffect(() => {
     document.title = "Shop - BookStoreX";
     if (slug) {
       document.title = `Shop ${
         slug.charAt(0).toUpperCase() + slug.slice(1)
       } - BookStoreX`;
-      setSelected(slug); // nếu category.name là dạng viết hoa chữ đầu
+      setSelected(slug); // nếu slug.name là dạng viết hoa chữ đầu
     } else {
       setSelected(undefined);
     }
@@ -60,31 +57,31 @@ export default function ShopLayout({
                 <h4 className="text-xl font-bold">Recommended Collections</h4>
                 <div className="flex flex-col gap-2">
                   <Link
-                    href="/shop/top-sellers"
+                    href="/shop/best-seller"
                     className={`inline-flex items-center gap-2 hover:text-blue-500 duration-300 ${
-                      selected === "top-sellers" ? "text-blue-500" : ""
+                      selected === "best-seller" ? "text-blue-500" : ""
                     }`}
                   >
                     <Star size={30} />
-                    Top Sellers
+                    Best Sellers
                   </Link>
                   <Link
-                    href="/shop/featured-sellers"
+                    href="/shop/featured"
                     className={`inline-flex items-center gap-2 hover:text-blue-500 duration-300 ${
-                      selected === "featured-sellers" ? "text-blue-500" : ""
+                      selected === "featured" ? "text-blue-500" : ""
                     }`}
                   >
                     <CircleStar size={30} />
                     Featured Sellers
                   </Link>
                   <Link
-                    href="/shop/editors-picks"
+                    href="/shop/new-arrival"
                     className={`inline-flex items-center gap-2 hover:text-blue-500 duration-300 ${
-                      selected === "editors-picks" ? "text-blue-500" : ""
+                      selected === "new-arrival" ? "text-blue-500" : ""
                     }`}
                   >
                     <Heart size={30} />
-                    Editor’s Picks
+                    New Arrivals
                   </Link>
                 </div>
               </div>
@@ -113,10 +110,7 @@ export default function ShopLayout({
             </div>
             <div className="flex flex-col gap-2">
               <h4 className="text-xl font-bold">Filter by top Author</h4>
-              <Link
-                href="/author/1"
-                className="flex flex-row items-center gap-2"
-              >
+              <Link href="/shop/1" className="flex flex-row items-center gap-2">
                 <img
                   src="https://cdn.prod.website-files.com/66ab8282560ac2178fdcc6f7/6710d687b852284eb2a703b2_Rectangle%20756-2-p-500.avif"
                   alt=""

@@ -35,7 +35,7 @@ const CategoryHome = () => {
         {bookCategories.map((category, index) => (
           <SwiperSlide className="py-14 px-10" key={category.id}>
             <Link
-              href={`/categories/${category.name.toLowerCase()}`}
+              href={`/shop/${category.name.toLowerCase()}`}
               className="flex items-center gap-4 "
             >
               <img
