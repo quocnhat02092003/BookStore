@@ -26,13 +26,13 @@ const BookCardProduct_v2: React.FC<BookCardProductProps> = ({
       <img
         src={`https://covers.openlibrary.org/b/id/${coverImageId}-L.jpg`}
         alt=""
-        className="w-50 h-60 object-cover rounded-2xl hover:scale-90 transition-transform duration-300"
+        className="w-70 h-80 object-cover rounded-2xl hover:scale-90 transition-transform duration-300"
       />
       <div className="flex flex-col items-start">
         <p className="text-sm text-slate-500 mt-2 truncate w-[180px]">
           By {authors.join(", ")}
         </p>
-        <h3 className="text-lg">{title}</h3>
+        <h3 className="text-lg truncate w-[180px]">{title}</h3>
         <p className="text-sm text-blue-800 mt-3">${price}</p>
         {first_publish_year && (
           <p className="text-xs text-slate-400 mt-1">

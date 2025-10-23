@@ -6,13 +6,27 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
+import { useUser } from "@/context/UserContext";
 import { allBookData } from "@/data/book_data/all_book_data";
 import { Facebook, Linkedin, Twitter } from "lucide-react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React from "react";
 
 const page = () => {
   const { id } = useParams<{ id: string }>();
+
+  React.useEffect(() => {
+    document.title = `${
+      allBookData.find((book) => book.work_id === id)?.title
+    } - BookStore`;
+  }, [id]);
+
+  const router = useRouter();
+
+  //get user from usercontext
+  const user = useUser();
+
+  console.log(allBookData);
 
   return (
     <div className="flex flex-col gap-2">
@@ -59,20 +73,25 @@ const page = () => {
                       Read: {book.counts.already_read || 0}
                     </p>
                   </div>
-                  <p>
+                  <h3 className="text-2xl mt-2 text-green-700 font-semibold">
                     {book.price
                       ? `$${book.price}.00 USD`
                       : "Price not available"}
-                  </p>
+                  </h3>
                 </div>
                 <div className="flex flex-col gap-5">
                   {book.description ? (
-                    <p>{book.description}</p>
+                    <p
+                      dangerouslySetInnerHTML={{ __html: book.description }}
+                    ></p>
                   ) : (
                     <p className="italic text-slate-500">
                       No description available.
                     </p>
                   )}
+                  <small className="border-t border-slate-400 pt-5 text-slate-700">
+                    Quantity available: 200
+                  </small>
                   <div className="flex flex-row items-center gap-2">
                     <input
                       type="number"
@@ -84,6 +103,11 @@ const page = () => {
                     <Button
                       className="bg-blue-600 text-white hover:bg-blue-700 hover:text-white cursor-pointer"
                       variant="outline"
+                      onClick={
+                        user.user
+                          ? () => console.log("Add to cart")
+                          : () => router.push("/login")
+                      }
                     >
                       Add to Cart
                     </Button>
@@ -154,7 +178,9 @@ const page = () => {
                   </AccordionTrigger>
                   <AccordionContent className="flex flex-col gap-4 text-balance">
                     {book.description ? (
-                      <p>{book.description}</p>
+                      <p
+                        dangerouslySetInnerHTML={{ __html: book.description }}
+                      />
                     ) : (
                       <p>No description available.</p>
                     )}

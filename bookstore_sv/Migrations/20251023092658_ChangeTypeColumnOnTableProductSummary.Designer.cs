@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace bookstore_sv.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251023092658_ChangeTypeColumnOnTableProductSummary")]
+    partial class ChangeTypeColumnOnTableProductSummary
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -20,64 +23,6 @@ namespace bookstore_sv.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
-
-            modelBuilder.Entity("Author", b =>
-                {
-                    b.Property<string>("author_key")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("author_key");
-
-                    b.ToTable("Authors");
-                });
-
-            modelBuilder.Entity("ProductAuthor", b =>
-                {
-                    b.Property<string>("product_id")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("author_key")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("id")
-                        .HasColumnType("longtext");
-
-                    b.HasKey("product_id", "author_key");
-
-                    b.HasIndex("author_key");
-
-                    b.ToTable("ProductAuthors");
-                });
-
-            modelBuilder.Entity("ProductCount", b =>
-                {
-                    b.Property<string>("id")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<int>("already_read")
-                        .HasColumnType("int");
-
-                    b.Property<int>("currently_reading")
-                        .HasColumnType("int");
-
-                    b.Property<string>("product_id")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<int>("want_to_read")
-                        .HasColumnType("int");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("product_id")
-                        .IsUnique();
-
-                    b.ToTable("ProductCounts");
-                });
 
             modelBuilder.Entity("bookstore_sv.Models.Product", b =>
                 {
@@ -257,36 +202,6 @@ namespace bookstore_sv.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("ProductAuthor", b =>
-                {
-                    b.HasOne("Author", "Author")
-                        .WithMany("ProductAuthors")
-                        .HasForeignKey("author_key")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("bookstore_sv.Models.Product", "Product")
-                        .WithMany("ProductAuthors")
-                        .HasForeignKey("product_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Author");
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("ProductCount", b =>
-                {
-                    b.HasOne("bookstore_sv.Models.Product", "Product")
-                        .WithOne("ProductCount")
-                        .HasForeignKey("ProductCount", "product_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("bookstore_sv.Models.ProductInformation", b =>
                 {
                     b.HasOne("bookstore_sv.Models.Product", "Product")
@@ -320,17 +235,8 @@ namespace bookstore_sv.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Author", b =>
-                {
-                    b.Navigation("ProductAuthors");
-                });
-
             modelBuilder.Entity("bookstore_sv.Models.Product", b =>
                 {
-                    b.Navigation("ProductAuthors");
-
-                    b.Navigation("ProductCount");
-
                     b.Navigation("ProductInformation");
 
                     b.Navigation("ProductSummary");

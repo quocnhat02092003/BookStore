@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace bookstore_sv.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250920140751_AddColumnToTableToken")]
-    partial class AddColumnToTableToken
+    [Migration("20251023080539_InitialTableUser-Token-Product-ProductInformation")]
+    partial class InitialTableUserTokenProductProductInformation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,6 +23,84 @@ namespace bookstore_sv.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
+
+            modelBuilder.Entity("bookstore_sv.Models.Product", b =>
+                {
+                    b.Property<string>("product_id")
+                        .HasColumnType("varchar(255)");
+
+                    b.PrimitiveCollection<string>("author_key")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("category")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("cover")
+                        .HasColumnType("int");
+
+                    b.Property<string>("cover_edition_key")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("first_publish_year")
+                        .HasColumnType("int");
+
+                    b.Property<int>("price")
+                        .HasColumnType("int");
+
+                    b.Property<int>("quantity_in_stock")
+                        .HasColumnType("int");
+
+                    b.Property<string>("title")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("type")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("product_id");
+
+                    b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("bookstore_sv.Models.ProductInformation", b =>
+                {
+                    b.Property<string>("id")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("description")
+                        .HasColumnType("longtext");
+
+                    b.PrimitiveCollection<string>("isbn_13")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("number_of_pages")
+                        .HasColumnType("int");
+
+                    b.Property<string>("product_id")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("publish_date")
+                        .HasColumnType("longtext");
+
+                    b.PrimitiveCollection<string>("publishers")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.PrimitiveCollection<string>("subjects")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("product_id")
+                        .IsUnique();
+
+                    b.ToTable("ProductInformations");
+                });
 
             modelBuilder.Entity("bookstore_sv.Models.Token", b =>
                 {
@@ -98,6 +176,17 @@ namespace bookstore_sv.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("bookstore_sv.Models.ProductInformation", b =>
+                {
+                    b.HasOne("bookstore_sv.Models.Product", "Product")
+                        .WithOne("ProductInformation")
+                        .HasForeignKey("bookstore_sv.Models.ProductInformation", "product_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("bookstore_sv.Models.Token", b =>
                 {
                     b.HasOne("bookstore_sv.Models.User", "User")
@@ -107,6 +196,11 @@ namespace bookstore_sv.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("bookstore_sv.Models.Product", b =>
+                {
+                    b.Navigation("ProductInformation");
                 });
 
             modelBuilder.Entity("bookstore_sv.Models.User", b =>

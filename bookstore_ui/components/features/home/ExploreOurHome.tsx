@@ -6,8 +6,8 @@ import { bookCollectionExploreKidBook } from "@/data/book_collection/book_collec
 
 const ExploreOurHome = () => {
   return (
-    <div className="bg-gradient-to-b from-blue-300 via-slate-100 to-white py-10">
-      <div className="flex flex-row justify-around items-center gap-10 my-20 mx-10">
+    <div className="bg-gradient-to-b from-blue-300 via-slate-100 to-white py-10 w-full">
+      <div className="lg:flex flex-row justify-around items-center gap-10 my-20 mx-10 max-lg:space-y-5">
         <h2 className="text-7xl max-lg:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-sky-400 to-black">
           Explore Our Kids' Books
         </h2>
@@ -15,7 +15,7 @@ const ExploreOurHome = () => {
           Explore All <ChevronRight />
         </Button>
       </div>
-      <div className="grid 2xl:grid-cols-3 md:grid-cols-2 lg:gap-20 max-lg:justify-center gap-5 lg:px-20 mb-20">
+      <div className="grid 2xl:grid-cols-3 md:grid-cols-2 lg:gap-20 max-lg:justify-center max-lg:items-center gap-5 lg:px-20 mb-20">
         {bookCollectionExploreKidBook.slice(0, 6).map((book) => (
           <BookCardProduct_v2
             key={book.work_id}

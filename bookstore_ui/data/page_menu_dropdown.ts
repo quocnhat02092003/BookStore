@@ -13,6 +13,6 @@ export const pageMenuDropdown = [
   },
   {
     title: "FAQ",
-    href: "/faq",
+    href: "/about",
   },
 ];

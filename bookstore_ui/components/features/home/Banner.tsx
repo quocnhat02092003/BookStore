@@ -15,18 +15,17 @@ const Banner = () => {
       animate={{ y: 0 }}
       exit={{ y: 500 }}
       transition={{ duration: 2 }}
-      className="w-full"
     >
       <Swiper
         spaceBetween={50}
         slidesPerView={1}
         autoplay={{ delay: 5000 }}
         modules={[Autoplay]}
-        className="w-full mx-auto py-20 border border-black bg-[url('https://cdn.prod.website-files.com/66ab8282560ac2178fdcc6c8/670f8f7633fbee26a9cb29cf_image%20(2).png')] bg-gray-200"
+        className="bg-[url('https://cdn.prod.website-files.com/66ab8282560ac2178fdcc6c8/670f8f7633fbee26a9cb29cf_image%20(2).png')]"
       >
         {dataBannerHome.map((item) => (
           <SwiperSlide key={item.id} className="py-20">
-            <div className="lg:flex flex-row items-center justify-around text-white px-28 gap-40 max-lg:px-14">
+            <div className="flex lg:flex-row flex-col items-center justify-around text-white lg:px-28 lg:gap-20 px-10">
               <motion.div
                 initial={{ x: -100 }}
                 animate={{ x: 0 }}
@@ -48,11 +47,12 @@ const Banner = () => {
                 animate={{ x: 0 }}
                 exit={{ x: -100 }}
                 transition={{ duration: 4 }}
+                className="w-80 h-auto"
               >
                 <img
                   src={item.image}
                   alt={item.title}
-                  className="w-[300px] mt-4 max-lg:mx-auto"
+                  className="mt-4 "
                   style={{
                     animation: "translateImageY 2000ms infinite",
                   }}
