@@ -7,5 +7,5 @@ public class ProductCount
     public int want_to_read { get; set; } = 0;
     public int currently_reading { get; set; } = 0;
     public int already_read { get; set; } = 0;
-    public Product? Product { get; set; }
+    public required Product Product { get; set; }
 }

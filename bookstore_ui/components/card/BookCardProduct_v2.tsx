@@ -4,10 +4,10 @@ import React from "react";
 interface BookCardProductProps {
   coverImageId: number;
   title: string;
-  authors: string[];
+  authors: { author_key: string; name: string }[];
   price: number;
   first_publish_year?: number;
-  work_id: string;
+  product_id: string;
 }
 
 const BookCardProduct_v2: React.FC<BookCardProductProps> = ({
@@ -16,11 +16,11 @@ const BookCardProduct_v2: React.FC<BookCardProductProps> = ({
   authors,
   price,
   first_publish_year,
-  work_id,
+  product_id,
 }) => {
   return (
     <Link
-      href={`/product/${work_id}`}
+      href={`/product/${product_id}`}
       className="md:flex items-center gap-5 p-4 rounded-3xl"
     >
       <img
@@ -30,7 +30,7 @@ const BookCardProduct_v2: React.FC<BookCardProductProps> = ({
       />
       <div className="flex flex-col items-start">
         <p className="text-sm text-slate-500 mt-2 truncate w-[180px]">
-          By {authors.join(", ")}
+          By {authors.map((author) => author.name).join(", ")}
         </p>
         <h3 className="text-lg truncate w-[180px]">{title}</h3>
         <p className="text-sm text-blue-800 mt-3">${price}</p>

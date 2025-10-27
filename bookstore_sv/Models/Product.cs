@@ -12,9 +12,9 @@ namespace bookstore_sv.Models
         public int price { get; set; } = 0;
         public string category { get; set; } = null!;
         public int quantity_in_stock { get; set; } = 0;
-        public ProductInformation? ProductInformation { get; set; }
-        public ProductSummary? ProductSummary { get; set; }
-        public ProductCount? ProductCount { get; set; }
-        public List<ProductAuthor>? ProductAuthors { get; set; } = new List<ProductAuthor>();
+        public required ProductInformation ProductInformation { get; set; }
+        public required ProductSummary ProductSummary { get; set; }
+        public required ProductCount ProductCount { get; set; }
+        public List<ProductAuthor> ProductAuthors { get; set; } = new List<ProductAuthor>();
     }
 }

@@ -1,15 +1,37 @@
+"use client";
 import React from "react";
-import { bookCategories } from "@/data/book_categories";
 import BookCardProduct from "../../card/BookCardProduct";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
-import { bookCollectionDealsOfWeek } from "@/data/book_collection/book_collection_dealofweek";
+import { getProductsByCategory } from "@/service/ProductService";
+import { ProductType } from "@/type/ResponseType/ProductType";
+import { Spinner } from "@/components/ui/spinner";
 
 const DealOfWeek = () => {
+  const [loading, setLoading] = React.useState<boolean>(false);
+
+  const [productsDealOfWeek, setProductsDealOfWeek] =
+    React.useState<ProductType>();
+
+  React.useEffect(() => {
+    const fetchDataProductDealOfWeek = async () => {
+      setLoading(true);
+      try {
+        const response = await getProductsByCategory("deal_of_week");
+        setProductsDealOfWeek(response);
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+        console.error("Error fetching Deal of Week Products:", error);
+      }
+    };
+    fetchDataProductDealOfWeek();
+  }, []);
+
   return (
     <>
-      {bookCollectionDealsOfWeek && (
+      {productsDealOfWeek?.data && (
         <div className="text-center w-full mb-20">
           <h1 className="text-6xl max-lg:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-sky-400 to-black">
             DEALS OF THE WEEK
@@ -31,18 +53,26 @@ const DealOfWeek = () => {
               autoplay={{ delay: 3000 }}
               className="w-full mx-auto max-xl:max-w-3xl py-8 px-6 rounded-3xl my-6"
             >
-              {bookCollectionDealsOfWeek.map((book) => (
-                <SwiperSlide key={book.work_id} className="gap-4 p-8">
-                  <BookCardProduct
-                    work_id={book.work_id}
-                    authors={book.author_name}
-                    title={book.title}
-                    price={book.price}
-                    coverImageId={book.cover}
-                    first_publish_year={book.first_publish_year}
-                  />
-                </SwiperSlide>
-              ))}
+              {/* Product available */}
+              {!loading &&
+                productsDealOfWeek.data.map((product) => (
+                  <SwiperSlide key={product.product_id} className="gap-4 p-8">
+                    <BookCardProduct
+                      product_id={product.product_id}
+                      authors={product.authors}
+                      title={product.title}
+                      price={product.price}
+                      coverImageId={product.cover}
+                      first_publish_year={product.first_publish_year}
+                    />
+                  </SwiperSlide>
+                ))}
+              {/* Loading State */}
+              {loading && (
+                <div className="flex justify-center items-center w-full h-48">
+                  <Spinner />
+                </div>
+              )}
             </Swiper>
           </div>
         </div>

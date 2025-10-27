@@ -6,24 +6,39 @@ import { bookCollectionNewArrivals } from "@/data/book_collection/book_collectio
 import { bookCollectionBestSellers } from "@/data/book_collection/book_collection_best-seller";
 import { bookCollectionFeatured } from "@/data/book_collection/book_collection_featured";
 import { AnimatePresence, motion } from "motion/react";
+import { ProductType } from "@/type/ResponseType/ProductType";
+import { getProductsByCategory } from "@/service/ProductService";
+import { Spinner } from "@/components/ui/spinner";
 
 const BookCollections = () => {
-  const [activeTab, setActiveTab] = React.useState<string>("New Arrival");
+  const [activeTab, setActiveTab] = React.useState<string>("new-arrival");
 
-  const collections: Record<string, typeof bookCollectionNewArrivals> = {
-    "New Arrival": bookCollectionNewArrivals,
-    "Best Seller": bookCollectionBestSellers,
-    Featured: bookCollectionFeatured,
-  };
+  const [loading, setLoading] = React.useState<boolean>(false);
 
-  const activeBooks = collections[activeTab] || [];
+  const [productsCollection, setProductsCollection] =
+    React.useState<ProductType>();
+
+  React.useEffect(() => {
+    const fetchDataProductCollection = async () => {
+      setLoading(true);
+      try {
+        const response = await getProductsByCategory(activeTab);
+        setProductsCollection(response);
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+        console.error("Error fetching Book Collection Products:", error);
+      }
+    };
+    fetchDataProductCollection();
+  }, [activeTab]);
 
   return (
     <div className="text-center w-full mb-20 mt-20">
       <h1 className="text-6xl max-lg:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-sky-400 to-black">
         BOOK COLLECTIONS
       </h1>
-      <h3 className="text-xl max-lg:text-lg mt-4">
+      <h3 className="text-xl max-lg:text-base mt-4 px-4">
         Explore our handpicked selections ranging from timeless literature to{" "}
         <br />
         contemporary bestsellers across diverse genres.
@@ -31,23 +46,23 @@ const BookCollections = () => {
       <div className="flex flex-wrap gap-2 justify-center mt-5">
         <Button
           className={`${
-            activeTab === "New Arrival" && "bg-blue-500 text-white"
+            activeTab === "new-arrival" && "bg-blue-500 text-white"
           }`}
-          onClick={() => setActiveTab("New Arrival")}
+          onClick={() => setActiveTab("new-arrival")}
         >
           New Arrival
         </Button>
         <Button
           className={`${
-            activeTab === "Best Seller" && "bg-blue-500 text-white"
+            activeTab === "best-seller" && "bg-blue-500 text-white"
           }`}
-          onClick={() => setActiveTab("Best Seller")}
+          onClick={() => setActiveTab("best-seller")}
         >
           Best Seller
         </Button>
         <Button
-          className={`${activeTab === "Featured" && "bg-blue-500 text-white"}`}
-          onClick={() => setActiveTab("Featured")}
+          className={`${activeTab === "featured" && "bg-blue-500 text-white"}`}
+          onClick={() => setActiveTab("featured")}
         >
           Featured
         </Button>
@@ -62,17 +77,36 @@ const BookCollections = () => {
             transition={{ duration: 0.8, ease: "easeInOut" }}
             className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-10"
           >
-            {activeBooks.slice(0, 8).map((book) => (
-              <BookCardProduct
-                key={book.work_id}
-                authors={book.author_name}
-                coverImageId={book.cover}
-                price={book.price}
-                title={book.title}
-                work_id={book.work_id}
-                first_publish_year={book.first_publish_year}
-              />
-            ))}
+            {/* Product available */}
+            {!loading &&
+              productsCollection?.data &&
+              productsCollection.data
+                .slice(0, 8)
+                .map((book) => (
+                  <BookCardProduct
+                    key={book.product_id}
+                    authors={book.authors}
+                    coverImageId={book.cover}
+                    price={book.price}
+                    title={book.title}
+                    product_id={book.product_id}
+                    first_publish_year={book.first_publish_year}
+                  />
+                ))}
+            {/* Loading State */}
+            {loading && (
+              <div className="flex justify-center items-center w-full h-48 col-span-4">
+                <Spinner />
+              </div>
+            )}
+            {/* No Product available */}
+            {!loading &&
+              productsCollection?.data &&
+              productsCollection.data.length == 0 && (
+                <p className="col-span-4 h-96 justify-center items-center flex text-gray-500">
+                  No books available in this collection.
+                </p>
+              )}
           </motion.div>
         </AnimatePresence>
       </div>

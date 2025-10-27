@@ -7,5 +7,5 @@ public class ProductSummary
     public float? average { get; set; }
     public int? count { get; set; }
     public float? sortable { get; set; }
-    public Product? Product { get; set; }
+    public required Product Product { get; set; }
 }

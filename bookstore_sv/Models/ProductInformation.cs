@@ -11,6 +11,6 @@ namespace bookstore_sv.Models
         public string? publish_date { get; set; }
         public List<string>? isbn_13 { get; set; } = new List<string>();
         public List<string>? subjects { get; set; } = new List<string>();
-        public Product? Product { get; set; }
+        public required Product Product { get; set; }
     }
 }

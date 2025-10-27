@@ -2,12 +2,12 @@ import Link from "next/link";
 import React from "react";
 
 interface BookCardProductProps {
-  authors: string[];
+  authors: { author_key: string; name: string }[];
   title: string;
   price: number;
   coverImageId: number;
   first_publish_year?: number;
-  work_id: string;
+  product_id: string;
 }
 
 const BookCardProduct = ({
@@ -16,11 +16,11 @@ const BookCardProduct = ({
   price,
   coverImageId,
   first_publish_year,
-  work_id,
+  product_id,
 }: BookCardProductProps) => {
   return (
     <Link
-      href={`/product/${work_id}`}
+      href={`/product/${product_id}`}
       className="flex flex-col items-start w-full truncate"
     >
       <img
@@ -30,7 +30,10 @@ const BookCardProduct = ({
       />
       <div className="flex flex-col items-start truncate">
         <p className="text-sm text-slate-500 mt-2 truncate">
-          By {authors ? authors.join(", ") : "Unknown Author"}
+          By{" "}
+          {authors
+            ? authors.map((author) => author.name).join(", ")
+            : "Unknown Author"}
         </p>
         <h3 className="text-lg truncate">{title}</h3>
         <p className="text-sm text-blue-800 mt-1">${price} USD</p>

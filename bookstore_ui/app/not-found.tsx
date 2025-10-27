@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import React from "react";
 
-const page = () => {
+const Custom404 = () => {
   return (
     <div className="bg-[url('https://cdn.prod.website-files.com/66ab8282560ac2178fdcc6c8/66dedb2084e3ba5c6bf0f230_404%20Page.png')] flex flex-col items-center justify-center px-5 gap-10 h-screen bg-cover bg-center">
       <h1 className="lg:text-[90px] text-7xl font-bold text-center text-green-500">
@@ -24,4 +24,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Custom404;
