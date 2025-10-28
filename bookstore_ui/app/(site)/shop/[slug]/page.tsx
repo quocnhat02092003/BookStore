@@ -13,9 +13,34 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { ProductType } from "@/type/ResponseType/ProductType";
+import { getProductsByCategory } from "@/service/ProductService";
+import { Spinner } from "@/components/ui/spinner";
 
 const Page = () => {
   const { slug } = useParams<{ slug: string }>();
+  const [loading, setLoading] = React.useState<boolean>(false);
+
+  const [productsCategory, setProductsCategory] = React.useState<ProductType>();
+
+  React.useEffect(() => {
+    const fetchDataProductCategory = async () => {
+      setLoading(true);
+      try {
+        const response = await getProductsByCategory(slug.toLowerCase());
+        setProductsCategory(response);
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+        console.error("Error fetching Category Products:", error);
+      }
+    };
+    fetchDataProductCategory();
+  }, [slug]);
+
+  console.log("slug", slug);
+  console.log("productsCategory", productsCategory);
+
   return (
     <div>
       <div className="max-lg:py-10">
@@ -28,24 +53,26 @@ const Page = () => {
             transition={{ duration: 0.8, ease: "easeInOut" }}
             className="grid 2xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 max-sm:grid-cols-1 gap-10 place-items-center"
           >
-            {allBookCollection
-              .filter((book) =>
-                book.type
-                  .map((type) => type.toLowerCase())
-                  .includes(slug.toLowerCase())
-              )
-              .map((book) => (
+            {productsCategory?.data &&
+              productsCategory.data.length > 0 &&
+              productsCategory.data.map((book) => (
                 <BookCardProduct
-                  key={book.work_id}
-                  authors={book.author_name}
+                  key={book.product_id}
+                  authors={book.authors}
                   coverImageId={book.cover}
                   price={book.price}
                   title={book.title}
-                  work_id={book.work_id}
+                  product_id={book.product_id}
                   first_publish_year={book.first_publish_year}
                 />
               ))}
           </motion.div>
+          {/* Loading State */}
+          {loading && (
+            <div className="flex justify-center items-center w-full h-48">
+              <Spinner />
+            </div>
+          )}
         </AnimatePresence>
       </div>
       <div className="mt-20">
@@ -54,22 +81,21 @@ const Page = () => {
             <PaginationItem>
               <PaginationPrevious href="#" />
             </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#" isActive>
-                1
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#" isActive>
-                2
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">3</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationEllipsis />
-            </PaginationItem>
+            {productsCategory &&
+              productsCategory.totalPages &&
+              productsCategory.totalPages > 0 &&
+              Array.from({ length: productsCategory.totalPages }, (_, i) => (
+                <PaginationItem key={i}>
+                  <PaginationLink href="#" isActive={i === 0}>
+                    {i + 1}
+                  </PaginationLink>
+                </PaginationItem>
+              ))}
+            {productsCategory && productsCategory.totalPages > 3 && (
+              <PaginationItem>
+                <PaginationEllipsis />
+              </PaginationItem>
+            )}
             <PaginationItem>
               <PaginationNext href="#" />
             </PaginationItem>

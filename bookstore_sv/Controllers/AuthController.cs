@@ -193,15 +193,6 @@ namespace BookStore.Controllers
                 Expires = DateTime.UtcNow.AddMinutes(15)
             });
 
-            Response.Cookies.Append("refreshToken", newRefreshTokenPlain, new CookieOptions
-            {
-                Path = "/",
-                HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.None,
-                Expires = DateTime.UtcNow.AddDays(7)
-            });
-
             return Ok(new { message = "Token refreshed successfully" });
         }
 

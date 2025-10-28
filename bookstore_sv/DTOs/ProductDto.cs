@@ -1,6 +1,5 @@
 public class ProductDto
 {
-    public int counts { get; set; }
     public string product_id { get; set; } = null!;
     public string type { get; set; } = null!;
     public string title { get; set; } = null!;

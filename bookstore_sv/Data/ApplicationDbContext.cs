@@ -16,6 +16,8 @@ public class ApplicationDbContext : DbContext
     public DbSet<ProductCount> ProductCounts { get; set; }
     public DbSet<Author> Authors { get; set; }
     public DbSet<ProductAuthor> ProductAuthors { get; set; }
+    public DbSet<Cart> Carts { get; set; }
+    public DbSet<CartItems> CartItems { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -86,5 +88,33 @@ public class ApplicationDbContext : DbContext
             .HasOne(pa => pa.Author)
             .WithMany(a => a.ProductAuthors)
             .HasForeignKey(pa => pa.author_key);
+
+        //Key cart
+        modelBuilder.Entity<Cart>().HasKey(c => c.id);
+
+        //Relation user - cart
+        modelBuilder.Entity<Cart>()
+            .HasOne(c => c.User)
+            .WithMany(u => u.Carts)
+            .HasForeignKey(c => c.user_id)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        //Key cart items
+        modelBuilder.Entity<CartItems>().HasKey(ci => ci.id);
+
+        //Relation cart - cart items
+        modelBuilder.Entity<CartItems>()
+            .HasOne(ci => ci.Cart)
+            .WithMany(c => c.CartItems)
+            .HasForeignKey(ci => ci.cart_id)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        //Relation product - cart items
+        modelBuilder.Entity<CartItems>()
+            .HasOne(ci => ci.Product)
+            .WithMany(p => p.CartItems)
+            .HasForeignKey(ci => ci.product_id)
+            .OnDelete(DeleteBehavior.Cascade);
+
     }
 }

@@ -23,7 +23,6 @@ public class ProductController : ControllerBase
 
         var products = await _context.Products.Skip((page - 1) * pageSize).Take(pageSize).Select(p => new ProductDto
         {
-            counts = countsProducts,
             product_id = p.product_id,
             type = p.type,
             title = p.title,
@@ -48,6 +47,10 @@ public class ProductController : ControllerBase
     [HttpGet("category/{category}")]
     public async Task<IActionResult> GetProductsByCategory(string category)
     {
+        var countsProducts = await _context.Products.CountAsync(p => p.category == category);
+        int totalPages = countsProducts / 12;
+        if (countsProducts % 12 != 0) totalPages += 1;
+
         var products = await _context.Products
         .Where(p => p.category == category)
         .Include(p => p.ProductAuthors)
@@ -73,7 +76,7 @@ public class ProductController : ControllerBase
         })
         .ToListAsync();
 
-        return Ok(new { data = products, status = 200, message = "Success" });
+        return Ok(new { data = products, status = 200, message = "Success", totalPages = totalPages });
     }
 
     [HttpGet("product-info/{product_id}")]

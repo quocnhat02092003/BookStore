@@ -15,6 +15,7 @@ public class User
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
     public ICollection<Token> Tokens { get; set; } = new List<Token>();
+    public ICollection<Cart> Carts { get; set; } = new List<Cart>();
 }
 
 public enum UserRole

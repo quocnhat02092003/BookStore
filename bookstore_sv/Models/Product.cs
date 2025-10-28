@@ -16,5 +16,6 @@ namespace bookstore_sv.Models
         public required ProductSummary ProductSummary { get; set; }
         public required ProductCount ProductCount { get; set; }
         public List<ProductAuthor> ProductAuthors { get; set; } = new List<ProductAuthor>();
+        public ICollection<CartItems> CartItems { get; set; } = new List<CartItems>();
     }
 }

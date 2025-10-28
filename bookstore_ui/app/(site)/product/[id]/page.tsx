@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { useUser } from "@/context/UserContext";
 import { allBookData } from "@/data/book_data/all_book_data";
+import { AddProductToCart } from "@/service/CartService";
 import { getProductInformationByProductId } from "@/service/ProductService";
 import { ProductInformationResponseType } from "@/type/ResponseType/ProductInformationType";
 import { Facebook, Linkedin, Twitter } from "lucide-react";
@@ -43,12 +44,15 @@ const page = () => {
     fetchDataProductInformation();
   }, [id]);
 
-  console.log(productInformation);
-
   const router = useRouter();
 
   //get user from usercontext
   const user = useUser();
+
+  const handleAddToCart = async (product_id: string) => {
+    const response = await AddProductToCart(product_id);
+    console.log("Add to Cart Response:", response);
+  };
 
   return (
     // Product Data Available
@@ -140,7 +144,8 @@ const page = () => {
                     variant="outline"
                     onClick={
                       user.user
-                        ? () => console.log("Add to cart")
+                        ? () =>
+                            handleAddToCart(productInformation.data.product_id)
                         : () => router.push("/login")
                     }
                   >

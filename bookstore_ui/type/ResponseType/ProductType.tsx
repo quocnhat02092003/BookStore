@@ -20,5 +20,5 @@ export type ProductType = {
   counts?: number;
   message?: string;
   status?: number;
-  totalPages?: number;
+  totalPages: number;
 };
