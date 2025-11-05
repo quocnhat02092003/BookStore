@@ -4,7 +4,7 @@ import React from "react";
 
 const BlogCard = () => {
   return (
-    <Link href="/product/1">
+    <Link href="/about">
       <div className="overflow-hidden">
         <img
           src="https://cdn.prod.website-files.com/66ab8282560ac2178fdcc6f7/66ab8282560ac2178fdcc7a8_image%20(2).avif"
@@ -14,7 +14,7 @@ const BlogCard = () => {
       </div>
       <div className="flex flex-col items-start truncate bg-gray-200 py-3 px-5 rounded-b-lg">
         <Link
-          href="blog-category/books"
+          href="/blog"
           className="text-sm text-slate-500 mt-2 px-2 py-1 border border-green-600 rounded-xl hover:bg-green-600 hover:text-white duration-300"
         >
           Books

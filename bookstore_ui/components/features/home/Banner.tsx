@@ -24,8 +24,8 @@ const Banner = () => {
         className="bg-[url('https://cdn.prod.website-files.com/66ab8282560ac2178fdcc6c8/670f8f7633fbee26a9cb29cf_image%20(2).png')]"
       >
         {dataBannerHome.map((item) => (
-          <SwiperSlide key={item.id} className="py-20">
-            <div className="flex lg:flex-row flex-col items-center justify-around text-white lg:px-28 lg:gap-20 px-10">
+          <SwiperSlide key={item.id} className="py-20 flex justify-center">
+            <div className="flex lg:flex-row flex-col items-center justify-center text-white lg:px-28 lg:gap-30 px-10">
               <motion.div
                 initial={{ x: -100 }}
                 animate={{ x: 0 }}
@@ -52,7 +52,7 @@ const Banner = () => {
                 <img
                   src={item.image}
                   alt={item.title}
-                  className="mt-4 "
+                  className="mt-4 h-auto"
                   style={{
                     animation: "translateImageY 2000ms infinite",
                   }}

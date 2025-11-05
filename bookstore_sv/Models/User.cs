@@ -16,6 +16,7 @@ public class User
 
     public ICollection<Token> Tokens { get; set; } = new List<Token>();
     public ICollection<Cart> Carts { get; set; } = new List<Cart>();
+    public ICollection<Order> Orders { get; set; } = new List<Order>();
 }
 
 public enum UserRole

@@ -44,6 +44,9 @@ namespace bookstore_sv.Migrations
                     b.Property<DateTime>("created_at")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<bool>("isCheckedOut")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<DateTime>("updated_at")
                         .HasColumnType("datetime(6)");
 
@@ -86,6 +89,67 @@ namespace bookstore_sv.Migrations
                     b.HasIndex("product_id");
 
                     b.ToTable("CartItems");
+                });
+
+            modelBuilder.Entity("Order", b =>
+                {
+                    b.Property<Guid>("order_id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("created_at")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("payment_method")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("status")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("total_price")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("updated_at")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<Guid>("user_id")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("order_id");
+
+                    b.HasIndex("user_id");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("OrderItem", b =>
+                {
+                    b.Property<Guid>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("order_id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<int>("price")
+                        .HasColumnType("int");
+
+                    b.Property<string>("product_id")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<int>("quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("order_id");
+
+                    b.HasIndex("product_id");
+
+                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("ProductAuthor", b =>
@@ -340,6 +404,36 @@ namespace bookstore_sv.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("Order", b =>
+                {
+                    b.HasOne("bookstore_sv.Models.User", "User")
+                        .WithMany("Orders")
+                        .HasForeignKey("user_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("OrderItem", b =>
+                {
+                    b.HasOne("Order", "Order")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("order_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("bookstore_sv.Models.Product", "Product")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("product_id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("ProductAuthor", b =>
                 {
                     b.HasOne("Author", "Author")
@@ -413,9 +507,16 @@ namespace bookstore_sv.Migrations
                     b.Navigation("CartItems");
                 });
 
+            modelBuilder.Entity("Order", b =>
+                {
+                    b.Navigation("OrderItems");
+                });
+
             modelBuilder.Entity("bookstore_sv.Models.Product", b =>
                 {
                     b.Navigation("CartItems");
+
+                    b.Navigation("OrderItems");
 
                     b.Navigation("ProductAuthors");
 
@@ -432,6 +533,8 @@ namespace bookstore_sv.Migrations
             modelBuilder.Entity("bookstore_sv.Models.User", b =>
                 {
                     b.Navigation("Carts");
+
+                    b.Navigation("Orders");
 
                     b.Navigation("Tokens");
                 });

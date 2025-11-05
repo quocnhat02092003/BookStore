@@ -26,3 +26,11 @@ export const ChangeCartItemQuantity = async (productId: string, quantity: number
     }
     return response.data;
 };
+
+export const RemoveCartItem = async (productId: string) => {
+    const response = await API.delete(`/api/cart/remove-item?product_id=${productId}`);
+    if (response.status !== 200) {
+        throw new Error("Failed to remove cart item");
+    }
+    return response.data;
+};

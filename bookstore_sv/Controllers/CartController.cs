@@ -154,5 +154,33 @@ namespace bookstore_sv.Controllers
 
             return Ok(new { message = "Cart item quantity updated successfully" });
         }
+
+        [HttpDelete("remove-item")]
+        [Authorize]
+        public async Task<IActionResult> RemoveItem([FromQuery] string product_id)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+            {
+                return Unauthorized(new { message = "User not authenticated" });
+            }
+
+            var cart = await _context.Carts.FirstOrDefaultAsync(c => c.user_id.ToString() == userId);
+            if (cart == null)
+            {
+                return NotFound(new { message = "Cart not found" });
+            }
+
+            var cartItem = await _context.CartItems.FirstOrDefaultAsync(ci => ci.product_id == product_id && ci.cart_id == cart.id);
+            if (cartItem == null)
+            {
+                return NotFound(new { message = "Cart item not found" });
+            }
+
+            _context.CartItems.Remove(cartItem);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Cart item removed successfully" });
+        }
     }
 }

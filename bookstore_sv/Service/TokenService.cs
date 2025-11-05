@@ -4,8 +4,6 @@ using System.Security.Cryptography;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
-namespace bookstore_sv.Service;
-
 public class TokenService
 {
     private readonly IConfiguration _config;

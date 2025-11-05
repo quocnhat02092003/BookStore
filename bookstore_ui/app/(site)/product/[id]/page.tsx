@@ -14,6 +14,7 @@ import { getProductInformationByProductId } from "@/service/ProductService";
 import { ProductInformationResponseType } from "@/type/ResponseType/ProductInformationType";
 import { Facebook, Linkedin, Twitter } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
+import { enqueueSnackbar } from "notistack";
 import React from "react";
 
 const page = () => {
@@ -50,8 +51,17 @@ const page = () => {
   const user = useUser();
 
   const handleAddToCart = async (product_id: string) => {
-    const response = await AddProductToCart(product_id);
-    console.log("Add to Cart Response:", response);
+    try {
+      const response = await AddProductToCart(product_id);
+      if (response) {
+        enqueueSnackbar("Product added to cart successfully!", {
+          variant: "success",
+          anchorOrigin: { vertical: "bottom", horizontal: "right" },
+        });
+      }
+    } catch (error) {
+      console.error("Error adding product to cart:", error);
+    }
   };
 
   return (

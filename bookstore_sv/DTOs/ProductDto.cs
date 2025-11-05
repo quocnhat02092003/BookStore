@@ -14,4 +14,5 @@ public class ProductDto
     public ProductInformationDto? ProductInformation { get; set; }
     public ProductSummaryDto? ProductSummary { get; set; }
     public ProductCountDto? ProductCount { get; set; }
+    public List<OrderItemDto> OrderItems { get; set; } = new List<OrderItemDto>();
 }

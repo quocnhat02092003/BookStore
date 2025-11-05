@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\bookstore_sv",
+    "\\bookstore_sv\\Data",
+    "\\bookstore_sv\\DTOs",
+    "\\bookstore_ui",
+    "\\bookstore_ui\\components",
+    "\\bookstore_ui\\components\\card",
+    "\\bookstore_ui\\context"
+  ],
+  "SelectedNode": "\\bookstore_sv\\DTOs\\CartDto.cs",
+  "PreviewInSolutionExplorer": false
+}
