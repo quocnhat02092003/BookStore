@@ -1,8 +1,8 @@
 public class OrderItemDto
 {
     public Guid id { get; set; }
-    public required Guid order_id { get; set; }
-    public required string product_id { get; set; }
+    public Guid order_id { get; set; }
+    public string product_id { get; set; } = null!;
     public int quantity { get; set; }
     public int price { get; set; }
     public OrderDto Order { get; set; } = null!;

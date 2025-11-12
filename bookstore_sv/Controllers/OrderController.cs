@@ -14,6 +14,7 @@ public class OrderController : ControllerBase
         _context = context;
     }
 
+    //Create Orders from Cart
     [HttpPost("create-orders")]
     [Authorize]
     public async Task<IActionResult> CreateOrders()
@@ -40,7 +41,14 @@ public class OrderController : ControllerBase
         //Calculate total price
         var total = cart.CartItems.Sum(ci => ci.quantity * ci.Product.price);
 
-        //Create order
+        //Create order and remove all before order items
+        var existingOrder = await _context.Orders.FirstOrDefaultAsync(o => o.user_id.ToString() == userId && o.status == "Pending");
+        if (existingOrder != null)
+        {
+            _context.Orders.Remove(existingOrder);
+            await _context.SaveChangesAsync();
+        }
+
         var order = new Order
         {
             user_id = Guid.Parse(userId),
@@ -75,12 +83,14 @@ public class OrderController : ControllerBase
     [Authorize]
     public async Task<IActionResult> GetAllOrders()
     {
+        //Check user existence
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         if (userId == null)
         {
             return Unauthorized("User not authenticated");
         }
 
+        //Get all orders for user
         var orders = await _context.Orders
             .Include(o => o.OrderItems)
             .ThenInclude(oi => oi.Product)
@@ -113,6 +123,7 @@ public class OrderController : ControllerBase
                     }
                 }).ToList()
             }).ToListAsync();
+
         return Ok(new { data = orders, message = "Orders retrieved successfully", status = 200 });
     }
 

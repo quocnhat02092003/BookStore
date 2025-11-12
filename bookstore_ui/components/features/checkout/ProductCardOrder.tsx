@@ -8,15 +8,11 @@ import {
 import { loadStripe } from "@stripe/stripe-js";
 import { CreateCheckoutSession } from "@/service/CheckoutService";
 
-interface ProductCardOrderProps {
-  data: OrderType | null;
-}
-
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
 );
 
-const ProductCardOrder = ({ data }: ProductCardOrderProps) => {
+const ProductCardOrder = () => {
   const [clientSecret, setClientSecret] = React.useState<string | null>(null);
 
   React.useEffect(() => {
@@ -36,7 +32,7 @@ const ProductCardOrder = ({ data }: ProductCardOrderProps) => {
           stripe={stripePromise}
           options={{ clientSecret }}
         >
-          <EmbeddedCheckout />
+          <EmbeddedCheckout className="w-[600px]" />
         </EmbeddedCheckoutProvider>
       )}
     </div>

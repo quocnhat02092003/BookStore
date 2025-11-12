@@ -17,10 +17,12 @@ public class ProductController : ControllerBase
         if (page <= 0) page = 1;
         if (pageSize <= 0) pageSize = 12;
 
+        // Calculate total pages
         var countsProducts = await _context.Products.CountAsync();
         int totalPages = countsProducts / pageSize;
         if (countsProducts % pageSize != 0) totalPages += 1;
 
+        // Fetch paginated products with authors
         var products = await _context.Products.Skip((page - 1) * pageSize).Take(pageSize).Select(p => new ProductDto
         {
             product_id = p.product_id,
@@ -47,10 +49,13 @@ public class ProductController : ControllerBase
     [HttpGet("category/{category}")]
     public async Task<IActionResult> GetProductsByCategory(string category)
     {
+
+        // Calculate total pages
         var countsProducts = await _context.Products.CountAsync(p => p.category == category);
         int totalPages = countsProducts / 12;
         if (countsProducts % 12 != 0) totalPages += 1;
 
+        // Fetch products by category with authors 
         var products = await _context.Products
         .Where(p => p.category == category)
         .Include(p => p.ProductAuthors)
@@ -82,6 +87,7 @@ public class ProductController : ControllerBase
     [HttpGet("product-info/{product_id}")]
     public async Task<IActionResult> GetProductInformationByProductId(string product_id)
     {
+        // Fetch product information with related entities
         var product = await _context.Products
         .Include(pi => pi.ProductInformation)
         .Include(ps => ps.ProductSummary)
@@ -95,6 +101,7 @@ public class ProductController : ControllerBase
             return NotFound();
         }
 
+        // Map product to ProductDto
         var result = new ProductDto
         {
             product_id = product.product_id,

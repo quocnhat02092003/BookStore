@@ -4,6 +4,7 @@ import "./globals.css";
 import { SnackbarProvider } from "notistack";
 import React from "react";
 import { UserProvider } from "@/context/UserContext";
+import { Toaster } from "@/components/ui/sonner";
 
 // Import font
 const inter = Inter({
@@ -21,6 +22,7 @@ export default function RootLayout({
       <body className={inter.className + "w-screen"}>
         <UserProvider>
           <SnackbarProvider>{children}</SnackbarProvider>
+          <Toaster position="top-center" closeButton />
         </UserProvider>
       </body>
     </html>

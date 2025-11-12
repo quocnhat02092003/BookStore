@@ -21,18 +21,20 @@ namespace bookstore_sv.Controllers
         [Authorize]
         public async Task<IActionResult> GetAllCart()
         {
+            // Get user ID from the authenticated user's claims
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId == null)
             {
                 return Unauthorized("User not authenticated");
             }
 
+            // Fetch all carts for the authenticated user that are not checked out
             var allCarts = await _context.Carts
             .Include(c => c.CartItems)
             .ThenInclude(ci => ci.Product)
             .ThenInclude(p => p.ProductAuthors)
             .ThenInclude(pa => pa.Author)
-            .Where(c => c.user_id.ToString() == userId)
+            .Where(c => c.user_id.ToString() == userId && c.isCheckedOut == false)
             .Select(c => new CartDto
             {
                 id = c.id,
@@ -74,13 +76,15 @@ namespace bookstore_sv.Controllers
         [Authorize]
         public async Task<IActionResult> AddToCart([FromQuery] string product_id)
         {
+            // Get user ID from the authenticated user's claims
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId == null)
             {
                 return Unauthorized(new { message = "User not authenticated" });
             }
 
-            var cart = await _context.Carts.FirstOrDefaultAsync(c => c.user_id.ToString() == userId);
+            // Check if the user has an existing cart that is not checked out
+            var cart = await _context.Carts.FirstOrDefaultAsync(c => c.user_id.ToString() == userId && c.isCheckedOut == false);
             if (cart == null)
             {
                 cart = new Cart
@@ -94,13 +98,15 @@ namespace bookstore_sv.Controllers
                 await _context.SaveChangesAsync();
             }
 
+            // Fetch the product by product_id
             var product = await _context.Products.FirstOrDefaultAsync(p => p.product_id == product_id);
             if (product == null)
             {
                 return NotFound(new { message = "Product not found" });
             }
 
-            var cartItem = _context.CartItems.FirstOrDefault(ci => ci.product_id == product_id);
+            // Check if the product is already in the cart
+            var cartItem = _context.CartItems.FirstOrDefault(ci => ci.product_id == product_id && ci.cart_id == cart.id);
             if (cartItem != null)
             {
                 cartItem.quantity += 1;
@@ -129,24 +135,28 @@ namespace bookstore_sv.Controllers
         [Authorize]
         public async Task<IActionResult> ChangeQuantity([FromQuery] string product_id, [FromQuery] int quantity)
         {
+            // Get user ID from the authenticated user's claims
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId == null)
             {
                 return Unauthorized(new { message = "User not authenticated" });
             }
 
-            var cart = await _context.Carts.FirstOrDefaultAsync(c => c.user_id.ToString() == userId);
+            // Check if the user has an existing cart that is not checked out
+            var cart = await _context.Carts.FirstOrDefaultAsync(c => c.user_id.ToString() == userId && c.isCheckedOut == false);
             if (cart == null)
             {
                 return NotFound(new { message = "Cart not found" });
             }
 
+            // Fetch the cart item for the specified product in the user's cart
             var cartItem = await _context.CartItems.FirstOrDefaultAsync(ci => ci.product_id == product_id && ci.cart_id == cart.id);
             if (cartItem == null)
             {
                 return NotFound(new { message = "Cart item not found" });
             }
 
+            // Update the quantity of the cart item 
             cartItem.quantity = quantity;
             cartItem.updated_at = DateTime.UtcNow;
 
@@ -159,18 +169,21 @@ namespace bookstore_sv.Controllers
         [Authorize]
         public async Task<IActionResult> RemoveItem([FromQuery] string product_id)
         {
+            // Get user ID from the authenticated user's claims
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId == null)
             {
                 return Unauthorized(new { message = "User not authenticated" });
             }
 
-            var cart = await _context.Carts.FirstOrDefaultAsync(c => c.user_id.ToString() == userId);
+            // Check if the user has an existing cart that is not checked out
+            var cart = await _context.Carts.FirstOrDefaultAsync(c => c.user_id.ToString() == userId && c.isCheckedOut == false);
             if (cart == null)
             {
                 return NotFound(new { message = "Cart not found" });
             }
 
+            // Fetch the cart item for the specified product in the user's cart
             var cartItem = await _context.CartItems.FirstOrDefaultAsync(ci => ci.product_id == product_id && ci.cart_id == cart.id);
             if (cartItem == null)
             {

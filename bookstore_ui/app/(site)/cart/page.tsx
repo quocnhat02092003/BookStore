@@ -23,6 +23,7 @@ import { enqueueSnackbar } from "notistack";
 import debounce from "lodash.debounce";
 import { useRouter } from "next/navigation";
 import { CreateOrder } from "@/service/OrderService";
+import { toast } from "sonner";
 
 const page = () => {
   // Router instance
@@ -106,21 +107,30 @@ const page = () => {
   };
 
   //Handle redirect to checkout
-  const RedirectToCheckOut = async () => {
-    try {
-      const response = await CreateOrder();
-      if (response) {
-        enqueueSnackbar("Success, auto redirect to checkout after 3 seconds");
-        setTimeout(() => {
-          Router.push("/checkout");
-        }, 3000);
-      }
-    } catch (error: any) {
-      enqueueSnackbar(error.message, {
-        variant: "error",
-        anchorOrigin: { vertical: "bottom", horizontal: "right" },
-      });
-    }
+  const RedirectToCheckOut = () => {
+    toast.success("Going to checkout...", {
+      action: {
+        label: "OK",
+        onClick: async () => {
+          try {
+            const response = await CreateOrder();
+            if (response) {
+              enqueueSnackbar(
+                "Success, auto redirect to checkout after 3 seconds"
+              );
+              setTimeout(() => {
+                Router.push("/checkout");
+              }, 3000);
+            }
+          } catch (error: any) {
+            enqueueSnackbar(error.message, {
+              variant: "error",
+              anchorOrigin: { vertical: "bottom", horizontal: "right" },
+            });
+          }
+        },
+      },
+    });
   };
 
   return (
