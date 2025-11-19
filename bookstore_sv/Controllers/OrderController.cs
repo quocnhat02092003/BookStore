@@ -94,7 +94,7 @@ public class OrderController : ControllerBase
         var orders = await _context.Orders
             .Include(o => o.OrderItems)
             .ThenInclude(oi => oi.Product)
-            .Where(o => o.user_id == Guid.Parse(userId))
+            .Where(o => o.user_id == Guid.Parse(userId) && o.status == "Pending")
             .Select(o => new OrderDto
             {
                 order_id = o.order_id,

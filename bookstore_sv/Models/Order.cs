@@ -10,5 +10,7 @@ public class Order
     public DateTime created_at { get; set; } = DateTime.UtcNow;
     public DateTime updated_at { get; set; } = DateTime.UtcNow;
     public User User { get; set; } = null!;
+    public Order_Billing_Address? Order_Billing_Address { get; set; }
+    public Order_Shipping_Address? Order_Shipping_Address { get; set; }
     public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 }

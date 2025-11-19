@@ -20,6 +20,8 @@ public class ApplicationDbContext : DbContext
     public DbSet<CartItems> CartItems { get; set; }
     public DbSet<Order> Orders { get; set; }
     public DbSet<OrderItem> OrderItems { get; set; }
+    public DbSet<Order_Billing_Address> Order_Billing_Addresses { get; set; }
+    public DbSet<Order_Shipping_Address> Order_Shipping_Addresses { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -140,6 +142,28 @@ public class ApplicationDbContext : DbContext
                 .WithMany(p => p.OrderItems)
                 .HasForeignKey(oi => oi.product_id)
                 .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        //Key order billing address and relations
+        modelBuilder.Entity<Order_Billing_Address>(entity =>
+        {
+            entity.HasKey(oba => oba.id);
+
+            entity.HasOne(oba => oba.Order)
+                .WithOne(o => o.Order_Billing_Address)
+                .HasForeignKey<Order_Billing_Address>(oba => oba.order_id)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        //Key order shipping address and relations
+        modelBuilder.Entity<Order_Shipping_Address>(entity =>
+        {
+            entity.HasKey(osa => osa.id);
+
+            entity.HasOne(osa => osa.Order)
+                .WithOne(o => o.Order_Shipping_Address)
+                .HasForeignKey<Order_Shipping_Address>(osa => osa.order_id)
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
     }
