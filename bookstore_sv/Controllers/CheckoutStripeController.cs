@@ -148,10 +148,11 @@ public class CheckoutStripeController : ControllerBase
         return Ok(new { clientSecret = session.ClientSecret });
     }
 
-    [HttpGet("verify-session")]
+    [HttpGet("verify-payment-checkout")]
     [Authorize]
     public async Task<IActionResult> VerifyPayment([FromQuery] string session_id)
     {
+        Console.WriteLine("Verifying payment for session ID: " + session_id);
         var service = new SessionService();
         var session = await service.GetAsync(session_id);
 

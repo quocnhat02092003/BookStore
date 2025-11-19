@@ -21,6 +21,8 @@ const page = () => {
   const { id } = useParams<{ id: string }>();
 
   const [loading, setLoading] = React.useState<boolean>(false);
+  const [loadingAddToCart, setLoadingAddToCart] =
+    React.useState<boolean>(false);
 
   const [productInformation, setproductInformation] =
     React.useState<ProductInformationResponseType>();
@@ -52,15 +54,18 @@ const page = () => {
 
   const handleAddToCart = async (product_id: string) => {
     try {
+      setLoadingAddToCart(true);
       const response = await AddProductToCart(product_id);
       if (response) {
         enqueueSnackbar("Product added to cart successfully!", {
           variant: "success",
           anchorOrigin: { vertical: "bottom", horizontal: "right" },
         });
+        setLoadingAddToCart(false);
       }
     } catch (error) {
       console.error("Error adding product to cart:", error);
+      setLoadingAddToCart(false);
     }
   };
 
@@ -159,7 +164,11 @@ const page = () => {
                         : () => router.push("/login")
                     }
                   >
-                    Add to Cart
+                    {loadingAddToCart ? (
+                      <Spinner className="w-4" />
+                    ) : (
+                      "Add to Cart"
+                    )}
                   </Button>
                 </div>
                 <div className="flex flex-col gap-3">

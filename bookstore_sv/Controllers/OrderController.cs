@@ -127,4 +127,52 @@ public class OrderController : ControllerBase
         return Ok(new { data = orders, message = "Orders retrieved successfully", status = 200 });
     }
 
+    [HttpGet("all-orders-paid")]
+    [Authorize]
+    public async Task<IActionResult> GetAllOrdersPaid()
+    {
+        //Check user existence
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (userId == null)
+        {
+            return Unauthorized("User not authenticated");
+        }
+
+        //Get all paid orders for user
+        var orders = await _context.Orders
+            .Include(o => o.OrderItems)
+            .ThenInclude(oi => oi.Product)
+            .Where(o => o.user_id == Guid.Parse(userId) && o.status == "Paid")
+            .Select(o => new OrderDto
+            {
+                order_id = o.order_id,
+                user_id = o.user_id,
+                total_price = o.total_price,
+                status = o.status,
+                payment_method = o.payment_method,
+                created_at = o.created_at,
+                updated_at = o.updated_at,
+                OrderItems = o.OrderItems.Select(oi => new OrderItemDto
+                {
+                    id = oi.id,
+                    order_id = oi.order_id,
+                    product_id = oi.product_id,
+                    quantity = oi.quantity,
+                    price = oi.price,
+                    Product = new ProductDto
+                    {
+                        product_id = oi.Product.product_id,
+                        type = oi.Product.type,
+                        title = oi.Product.title,
+                        cover = oi.Product.cover,
+                        price = oi.Product.price,
+                        category = oi.Product.category,
+                        quantity_in_stock = oi.Product.quantity_in_stock
+                    }
+                }).ToList()
+            }).ToListAsync();
+
+        return Ok(new { data = orders, message = "Paid orders retrieved successfully", status = 200 });
+    }
+
 }

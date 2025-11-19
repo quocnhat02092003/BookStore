@@ -16,3 +16,11 @@ export const GetAllOrders = async () => {
     }
     return response.data;
 };
+
+export const GetAllOrderPaid = async () => {
+    const response = await API.get<OrderType>(`/api/order/all-orders-paid`);
+    if (response.status !== 200) {
+        throw new Error("Failed to fetch paid order information");
+    }
+    return response.data;
+};

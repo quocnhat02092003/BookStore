@@ -21,7 +21,7 @@ const BlogCard = () => {
         </Link>
         <h3 className="lg:text-2xl text-xl mt-3">Dac nhan tam</h3>
         <Link
-          href="/blog/1"
+          href="/blog"
           className="text-sm text-blue-800 my-3 inline-flex items-center"
         >
           Read more <ChevronRight />

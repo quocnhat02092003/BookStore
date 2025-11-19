@@ -25,3 +25,11 @@ export const getProductInformationByProductId = async (product_id: string) => {
     }
     return response.data;
 };
+
+export const getProductsBySearchQuery = async (query: string) => {
+    const response = await axios.get<ProductType>(`${process.env.API_URL}/api/product/search?query=${encodeURIComponent(query)}`);
+    if (response.status !== 200) {
+        throw new Error("Failed to fetch products by search query");
+    }
+    return response.data;
+};

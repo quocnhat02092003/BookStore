@@ -149,4 +149,37 @@ public class ProductController : ControllerBase
         };
         return Ok(new { data = result, status = 200, message = "Success" });
     }
+
+    [HttpGet("search")]
+    public async Task<IActionResult> SearchProducts([FromQuery] string query)
+    {
+        if (string.IsNullOrWhiteSpace(query))
+        {
+            return BadRequest(new { status = 400, message = "Query parameter is required." });
+        }
+
+        var products = await _context.Products
+            .Where(p => p.title.Contains(query) || p.ProductAuthors.Any(pa => pa.Author.name.Contains(query)))
+            .Select(p => new ProductDto
+            {
+                product_id = p.product_id,
+                type = p.type,
+                title = p.title,
+                cover = p.cover,
+                author_key = p.author_key,
+                first_publish_year = p.first_publish_year,
+                cover_edition_key = p.cover_edition_key,
+                price = p.price,
+                category = p.category,
+                quantity_in_stock = p.quantity_in_stock,
+                Authors = p.ProductAuthors.Select(pa => new AuthorDto
+                {
+                    author_key = pa.Author.author_key,
+                    name = pa.Author.name
+                }).ToList()
+            })
+            .ToListAsync();
+
+        return Ok(new { data = products, status = 200, message = "Success" });
+    }
 }

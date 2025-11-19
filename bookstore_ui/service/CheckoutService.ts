@@ -27,6 +27,14 @@ export const SaveBillingAddressCheckout = async (billingAddress: BillingType) =>
     return response.data;
 };
 
+export const VerifyPaymentCheckout = async (session_id: string | null) => {
+    const response = await API.get(`/api/checkoutstripe/verify-payment-checkout?session_id=${session_id}`);
+    if (response.status !== 200) {
+        throw new Error("Failed to verify payment");
+    }
+    return response.data;
+};
+
 export const CancelCheckout = async () => {
     const response = await API.post(`/api/checkoutstripe/cancel-checkout`);
     if (response.status !== 200) {

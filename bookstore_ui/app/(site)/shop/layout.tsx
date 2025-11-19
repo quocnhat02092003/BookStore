@@ -27,7 +27,7 @@ export default function ShopLayout({
       document.title = `Shop ${
         slug.charAt(0).toUpperCase() + slug.slice(1)
       } - BookStoreX`;
-      setSelected(slug); // nếu slug.name là dạng viết hoa chữ đầu
+      setSelected(slug);
     } else {
       setSelected(undefined);
     }
@@ -50,7 +50,7 @@ export default function ShopLayout({
         </Button>
       </div>
       <div className="lg:grid grid-cols-4 gap-10 xl:px-20 px-10 mb-20">
-        <nav className="col-span-1">
+        <nav className="col-span-1 lg:border-r lg:pr-5">
           <div className="flex flex-col gap-10">
             <div className="flex flex-col gap-5">
               <div className="flex flex-col gap-2">
@@ -121,7 +121,7 @@ export default function ShopLayout({
             </div>
           </div>
         </nav>
-        <div className="col-span-3">{children}</div>
+        <div className="col-span-3 lg:pl-5">{children}</div>
       </div>
     </div>
   );

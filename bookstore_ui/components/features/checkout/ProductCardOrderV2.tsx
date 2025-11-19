@@ -3,9 +3,11 @@ import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { GetAllOrders } from "@/service/OrderService";
 import { OrderType } from "@/type/ResponseType/OrderType";
+import { redirect, useRouter } from "next/navigation";
 import React from "react";
 
 const ProductCardOrderV2 = () => {
+  const router = useRouter();
   const [orderItems, setOrderItems] = React.useState<OrderType | null>(null);
 
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -17,8 +19,12 @@ const ProductCardOrderV2 = () => {
       try {
         const response = await GetAllOrders();
         console.log("All Orders:", response);
-        setOrderItems(response);
-        setLoading(false);
+        if (response.status !== 200 || response.data.length === 0) {
+          router.push("/");
+        }
+        if (response.status === 200) {
+          setOrderItems(response);
+        }
       } catch (error) {
         setLoading(false);
         console.error("Error fetching orders:", error);
@@ -59,7 +65,7 @@ const ProductCardOrderV2 = () => {
                     </div>
                   </div>
                   <div>
-                    <h6>Total</h6>
+                    <p>Price</p>
                     <p>${item.price}.00</p>
                   </div>
                 </div>
