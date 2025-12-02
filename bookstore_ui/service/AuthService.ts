@@ -25,3 +25,11 @@ export const getDataUser = async () : Promise<DataUserResponse> => {
     }
     return response.data;
 }
+
+export const logoutUser = async () : Promise<{message : string}> => {
+    const response = await API.post<{message : string}>(`/api/auth/logout`);
+    if (response.status !== 200) {
+        throw new Error(response.data.message);
+    }
+    return response.data;
+}

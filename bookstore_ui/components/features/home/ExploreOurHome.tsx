@@ -5,6 +5,7 @@ import BookCardProduct_v2 from "../../card/BookCardProduct_v2";
 import { getProductsByCategory } from "@/service/ProductService";
 import { ProductType } from "@/type/ResponseType/ProductType";
 import { Spinner } from "@/components/ui/spinner";
+import Link from "next/link";
 
 const ExploreOurHome = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -43,15 +44,17 @@ const ExploreOurHome = () => {
                 </h2>
               </div>
 
-              <Button
-                size="lg"
-                className="backdrop-blur-md px-6 py-5 
+              <Link href="/shop/kid">
+                <Button
+                  size="lg"
+                  className="backdrop-blur-md px-6 py-5 
                 bg-white/40 hover:bg-white border border-white/50 
                 text-gray-900 font-semibold shadow-md transition-all rounded-xl flex items-center gap-2"
-              >
-                Explore All
-                <ChevronRight className="w-5 h-5" />
-              </Button>
+                >
+                  Explore All
+                  <ChevronRight className="w-5 h-5" />
+                </Button>
+              </Link>
             </div>
             <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
               {!loading &&

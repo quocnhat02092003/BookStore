@@ -7,6 +7,7 @@ import { ChevronRight } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import { motion } from "motion/react";
+import Link from "next/link";
 
 const Banner = () => {
   return (
@@ -35,12 +36,14 @@ const Banner = () => {
               >
                 <h2 className="text-3xl font-bold mb-4">{item.title}</h2>
                 <p className="text-lg max-lg:text-md">{item.description}</p>
-                <Button
-                  variant="default"
-                  className="mt-8 w-fit cursor-pointer max-lg:mb-20"
-                >
-                  Explore Now <ChevronRight />
-                </Button>
+                <Link href="/shop">
+                  <Button
+                    variant="default"
+                    className="mt-8 w-fit cursor-pointer max-lg:mb-20"
+                  >
+                    Explore Now <ChevronRight />
+                  </Button>
+                </Link>
               </motion.div>
               <motion.div
                 initial={{ x: 100 }}

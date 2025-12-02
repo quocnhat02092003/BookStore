@@ -234,8 +234,11 @@ export function UsersTable() {
                 <Input
                   id="Role"
                   defaultValue={
-                    usersData?.data.find((u) => u.id === selectedUser)?.role ||
-                    ""
+                    usersData?.data
+                      .find((u) => u.id === selectedUser)
+                      ?.role.toString() == "1"
+                      ? "User"
+                      : "Admin"
                   }
                   readOnly
                 />

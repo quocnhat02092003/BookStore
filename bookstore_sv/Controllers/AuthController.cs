@@ -232,6 +232,58 @@ public class AuthController : ControllerBase
             message = "User information retrieved successfully"
         });
     }
+
+    [HttpPost("logout")]
+    [Authorize]
+    public async Task<IActionResult> Logout()
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (userId == null)
+        {
+            return Unauthorized("UserID not found in token");
+        }
+
+        if (!Guid.TryParse(userId, out var userIdGuid))
+        {
+            return Unauthorized("Invalid UserID");
+        }
+
+        var user = await _context.Users
+            .Include(u => u.Tokens)
+            .FirstOrDefaultAsync(u => u.Id == userIdGuid);
+
+        if (user == null)
+        {
+            return NotFound("User not found");
+        }
+
+        // Revoke all tokens for the user
+        foreach (var token in user.Tokens.Where(t => t.RevokedAt == null))
+        {
+            token.RevokedAt = DateTime.UtcNow;
+        }
+
+        await _context.SaveChangesAsync();
+
+        // Remove cookies
+        Response.Cookies.Delete("accessToken", new CookieOptions
+        {
+            Path = "/",
+            HttpOnly = true,
+            Secure = true,
+            SameSite = SameSiteMode.None
+        });
+
+        Response.Cookies.Delete("refreshToken", new CookieOptions
+        {
+            Path = "/",
+            HttpOnly = true,
+            Secure = true,
+            SameSite = SameSiteMode.None
+        });
+
+        return Ok(new { message = "Logout successful" });
+    }
 }
 
 public class RegisterRequest

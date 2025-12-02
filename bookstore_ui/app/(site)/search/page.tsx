@@ -15,7 +15,8 @@ const SearchBookPage = () => {
 
   document.title = "Search Books - BookStore";
 
-  const handleSearch = async () => {
+  const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     document.title = `Search results for "${query}" - BookStore`;
     try {
       setLoading(true);
@@ -40,7 +41,8 @@ const SearchBookPage = () => {
         Find books by title, category or author.
       </p>
       <div className="flex justify-center mt-10">
-        <div
+        <form
+          onSubmit={handleSearch}
           className="flex items-center gap-3 w-full max-w-3xl bg-white/60 backdrop-blur-xl 
           border border-gray-300 rounded-full px-6 py-4 shadow-sm hover:shadow-md transition-all"
         >
@@ -51,14 +53,10 @@ const SearchBookPage = () => {
             onChange={(e) => setQuery(e.target.value)}
             className="border-none focus-visible:ring-0 text-lg bg-transparent"
           />
-          <Button
-            disabled={!query}
-            onClick={handleSearch}
-            className="rounded-full px-6"
-          >
+          <Button type="submit" disabled={!query} className="rounded-full px-6">
             {loading ? <Spinner className="w-4" /> : "Search"}
           </Button>
-        </div>
+        </form>
       </div>
       <div className="mt-16 min-h-[300px]">
         {loading && (

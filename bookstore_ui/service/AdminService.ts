@@ -51,3 +51,24 @@ export const getUserByMonths_Admin = async ()  => {
     }
     return response.data;
 }
+
+export const updateOrderStatus_Admin = async (orderId: string, newStatus: string)  => {
+    const response = await API.put<{ message: string }>(`/api/admin/update-order-status`, {
+        orderId,
+        newStatus
+    });
+    if (response.status !== 200) {
+        throw new Error(response.data.message);
+    }
+    return response.data;
+}
+
+export const cancelOrder_Admin = async (orderId: string)  => {
+    const response = await API.put<{ message: string }>(`/api/admin/cancel-order`, {
+        orderId
+    });
+    if (response.status !== 200) {
+        throw new Error(response.data.message);
+    }
+    return response.data;
+}

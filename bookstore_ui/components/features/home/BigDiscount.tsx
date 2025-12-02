@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "../../ui/button";
 import { ChevronRight } from "lucide-react";
+import Link from "next/link";
 
 const BigDiscount = () => {
   return (
@@ -12,13 +13,15 @@ const BigDiscount = () => {
         Discover affordable reads under $50 at BookStore PhamQuocNhat! From
         gripping mysteries to heartwarming romances.
       </p>
-      <Button
-        variant="default"
-        className="cursor-pointer bg-white text-black hover:bg-white w-fit mt-4 inline-flex items-center"
-      >
-        Order Now
-        <ChevronRight />
-      </Button>
+      <Link href="/shop/featured">
+        <Button
+          variant="default"
+          className="cursor-pointer bg-white text-black hover:bg-white w-fit mt-4 inline-flex items-center"
+        >
+          Order Now
+          <ChevronRight />
+        </Button>
+      </Link>
     </div>
   );
 };

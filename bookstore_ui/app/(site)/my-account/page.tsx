@@ -11,22 +11,41 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useUser } from "@/context/UserContext";
-import { GetAllOrderPaid } from "@/service/OrderService";
+import { logoutUser } from "@/service/AuthService";
+import { GetAllOrders } from "@/service/OrderService";
 import { OrderType } from "@/type/ResponseType/OrderType";
+import { useRouter } from "next/navigation";
+import { enqueueSnackbar } from "notistack";
 import React from "react";
 
 const MyAccountPage = () => {
   const [tab, setTab] = React.useState<string>("dashboard");
   const [isEditing, setIsEditing] = React.useState<boolean>(false);
   const [orderItems, setOrderItems] = React.useState<OrderType>();
-  const { user } = useUser();
+  const user = useUser();
+  const router = useRouter();
 
   const fetchOrderPaid = async () => {
     try {
-      const response = await GetAllOrderPaid();
+      const response = await GetAllOrders();
       setOrderItems(response);
     } catch (error) {
       console.error("Error fetching paid orders:", error);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      const response = await logoutUser();
+      if (response.message) {
+        // Clear user context or any other necessary cleanup
+        console.log("Logout successful:", response.message);
+        router.push("/login");
+        enqueueSnackbar("Logout successful", { variant: "success" });
+        user.refreshUser();
+      }
+    } catch (error) {
+      console.error("Error during logout:", error);
     }
   };
 
@@ -51,7 +70,12 @@ const MyAccountPage = () => {
 
   return (
     <div className="px-6 md:px-20 lg:px-40 py-12">
-      <h1 className="text-4xl font-semibold tracking-tight">My Account</h1>
+      <div className="flex justify-between items-center">
+        <h1 className="text-4xl font-semibold tracking-tight">My Account</h1>
+        <Button variant="destructive" onClick={handleLogout}>
+          Logout
+        </Button>
+      </div>
 
       <div className="flex flex-col lg:flex-row gap-10 mt-10">
         <div className="flex flex-col gap-3 w-full lg:w-60 border rounded-xl p-5 shadow-sm bg-white">
@@ -62,18 +86,21 @@ const MyAccountPage = () => {
         {tab === "dashboard" && (
           <div className="flex flex-col bg-white rounded-xl p-6 shadow-md max-w-xl w-full">
             <h2 className="text-2xl font-semibold mb-4">
-              Welcome, {user?.fullName}
+              Welcome, {user.user?.fullName}
             </h2>
 
             <div className="space-y-4">
               <div>
                 <label className="text-gray-500 text-sm">Email</label>
-                <Input disabled={!isEditing} defaultValue={user?.email} />
+                <Input disabled={!isEditing} defaultValue={user.user?.email} />
               </div>
 
               <div>
                 <label className="text-gray-500 text-sm">Full Name</label>
-                <Input disabled={!isEditing} defaultValue={user?.fullName} />
+                <Input
+                  disabled={!isEditing}
+                  defaultValue={user.user?.fullName}
+                />
               </div>
 
               <Button variant="link" className="text-blue-600 px-0">
@@ -159,14 +186,16 @@ const MyAccountPage = () => {
                       {order.status}
                     </TableCell>
 
-                    <TableCell className="text-center">
-                      <Button
-                        variant="outline"
-                        className="text-red-600 hover:bg-red-500 hover:text-white transition"
-                      >
-                        Cancel
-                      </Button>
-                    </TableCell>
+                    {order.status !== "Cancelled" && (
+                      <TableCell className="text-center">
+                        <Button
+                          variant="outline"
+                          className="text-red-600 hover:bg-red-500 hover:text-white transition"
+                        >
+                          Cancel
+                        </Button>
+                      </TableCell>
+                    )}
                   </TableRow>
                 ))}
               </TableBody>

@@ -15,7 +15,7 @@ public class AdminController : ControllerBase
     }
 
     [HttpGet("all-products-no-pagination")]
-    [Authorize(Roles = "User")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> GetAllProducts()
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -50,7 +50,7 @@ public class AdminController : ControllerBase
     }
 
     [HttpGet("all-users-no-pagination")]
-    [Authorize(Roles = "User")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> GetAllUsers()
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -75,7 +75,7 @@ public class AdminController : ControllerBase
     }
 
     [HttpGet("all-orders-no-pagination")]
-    [Authorize(Roles = "User")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> GetAllOrders()
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -123,15 +123,15 @@ public class AdminController : ControllerBase
     }
 
     [HttpGet("orders-status-chart")]
-    // [Authorize(Roles = "User")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> GetOrdersStatusChart()
     {
-        // var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        // var user = await _context.Users.FirstOrDefaultAsync(u => u.Id.ToString() == userId);
-        // if (user == null)
-        // {
-        //     return Unauthorized(new { status = 401, message = "Unauthorized" });
-        // }
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Id.ToString() == userId);
+        if (user == null)
+        {
+            return Unauthorized(new { status = 401, message = "Unauthorized" });
+        }
 
         var ordersStatus = await _context.Orders
         .Where(o => o.created_at >= DateTime.Now.AddMonths(-6))
@@ -147,6 +147,7 @@ public class AdminController : ControllerBase
     }
 
     [HttpGet("revenue-by-months-chart")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> GetRevenueByMonthsChart()
     {
         var revenueByMonths = await _context.Orders
@@ -181,4 +182,60 @@ public class AdminController : ControllerBase
 
         return Ok(new { data = userByMonths, status = 200, message = "Success" });
     }
+
+    [HttpPut("update-order-status")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> UpdateOrderStatus([FromBody] UpdateOrderStatusDto updateOrderStatusDto)
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Id.ToString() == userId);
+        if (user == null)
+        {
+            return Unauthorized(new { status = 401, message = "Unauthorized" });
+        }
+
+        var order = await _context.Orders.FirstOrDefaultAsync(o => o.order_id.ToString() == updateOrderStatusDto.orderId);
+        if (order == null)
+        {
+            return NotFound(new { status = 404, message = "Order not found" });
+        }
+
+        order.status = updateOrderStatusDto.newStatus;
+        await _context.SaveChangesAsync();
+
+        return Ok(new { status = 200, message = "Order status updated successfully" });
+    }
+
+    [HttpPut("cancel-order")]
+    [Authorize]
+    public async Task<IActionResult> CancelOrder([FromBody] CancelOrderDto cancelOrderDto)
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (userId == null)
+        {
+            return Unauthorized(new { status = 401, message = "Unauthorized" });
+        }
+
+        var order = await _context.Orders.FirstOrDefaultAsync(o => o.order_id.ToString() == cancelOrderDto.orderId && o.user_id.ToString() == userId);
+        if (order == null)
+        {
+            return NotFound(new { status = 404, message = "Order not found" });
+        }
+
+        order.status = "Cancelled";
+        await _context.SaveChangesAsync();
+
+        return Ok(new { status = 200, message = "Order cancelled successfully" });
+    }
+}
+
+public class UpdateOrderStatusDto
+{
+    public string orderId { get; set; } = null!;
+    public string newStatus { get; set; } = null!;
+}
+
+public class CancelOrderDto
+{
+    public string orderId { get; set; } = null!;
 }

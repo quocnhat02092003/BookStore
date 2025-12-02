@@ -2,16 +2,16 @@
 import React from "react";
 import BookCardProduct from "../../card/BookCardProduct";
 import { Button } from "../../ui/button";
-import { bookCollectionNewArrivals } from "@/data/book_collection/book_collection_new-arrival";
-import { bookCollectionBestSellers } from "@/data/book_collection/book_collection_best-seller";
-import { bookCollectionFeatured } from "@/data/book_collection/book_collection_featured";
 import { AnimatePresence, motion } from "motion/react";
 import { ProductType } from "@/type/ResponseType/ProductType";
 import { getProductsByCategory } from "@/service/ProductService";
 import { Spinner } from "@/components/ui/spinner";
+import { useRouter } from "next/navigation";
 
 const BookCollections = () => {
   const [activeTab, setActiveTab] = React.useState<string>("new-arrival");
+
+  const router = useRouter();
 
   const [loading, setLoading] = React.useState<boolean>(false);
 
@@ -110,7 +110,7 @@ const BookCollections = () => {
           </motion.div>
         </AnimatePresence>
       </div>
-      <Button size="lg" className="mt-10">
+      <Button onClick={() => router.push("/shop")} size="lg" className="mt-10">
         Explore All
       </Button>
     </div>

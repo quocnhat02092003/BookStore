@@ -1,23 +1,17 @@
 "use client";
 import React from "react";
-import {
-  ChevronDown,
-  Menu,
-  ShoppingCart,
-  Smile,
-  UserRound,
-  X,
-} from "lucide-react";
-import { Input } from "@/components/ui/input";
+import { ChevronDown, Menu, ShoppingCart, UserRound, X } from "lucide-react";
 import { bookCategories } from "@/data/book_categories";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { pageMenuDropdown } from "@/data/page_menu_dropdown";
 import { useUser } from "@/context/UserContext";
 import { Avatar, AvatarImage } from "../ui/avatar";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
   const [isActiveTab, setIsActiveTab] = React.useState<string>("home");
+  const router = useRouter();
 
   const [isOnClickCategory, setIsOnClickCategory] =
     React.useState<boolean>(false);
@@ -95,20 +89,16 @@ const Header = () => {
           Pages
           <ChevronDown size={20} />
           {isOnClickPages && (
-            <div className="absolute top-[70%] -left-4 bg-gray-100 shadow-md rounded-md mt-2">
+            <div className="absolute top-[70%] -left-4 bg-gray-100 rounded-md mt-2">
               <ul className="w-48">
-                <li className="p-5 hover:bg-gray-200 rounded-t-md">
-                  <Link href="/about">About Us</Link>
-                </li>
-                <li className="p-5 hover:bg-gray-200">
-                  <Link href="/blog">Blog</Link>
-                </li>
-                <li className="p-5 hover:bg-gray-200">
-                  <Link href="/contact">Contact</Link>
-                </li>
-                <li className="p-5 hover:bg-gray-200 rounded-b-md">
-                  <Link href="/about">FAQ</Link>
-                </li>
+                {pageMenuDropdown.map((item) => (
+                  <li
+                    onClick={() => router.push(item.href as any)}
+                    className="p-5 hover:bg-gray-200 rounded-t-md"
+                  >
+                    {item.title}
+                  </li>
+                ))}
               </ul>
             </div>
           )}
@@ -121,7 +111,13 @@ const Header = () => {
         </Link>
       </ul>
       <div className="flex items-center space-x-2">
-        <Input className="max-lg:hidden" placeholder="Search..." />
+        <Button
+          onClick={() => router.push("/search")}
+          variant="outline"
+          className="max-lg:hidden"
+        >
+          Search...
+        </Button>
         {
           <Link href={`${user.user ? "/cart" : "/login"}`}>
             <ShoppingCart />
@@ -203,7 +199,7 @@ const Header = () => {
               {pageMenuDropdown.map((item) => (
                 <Link
                   key={item.href}
-                  href={item.href}
+                  href={item.href as any}
                   className="p-2 border-b hover:text-green-700 hover:border-green-700 duration-500"
                 >
                   {item.title}

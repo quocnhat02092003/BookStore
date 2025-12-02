@@ -19,7 +19,11 @@ import {
 import { Button } from "@/components/ui/button";
 import React from "react";
 import { OrderType } from "@/type/ResponseType/OrderType";
-import { getAllOrder_Admin } from "@/service/AdminService";
+import {
+  cancelOrder_Admin,
+  getAllOrder_Admin,
+  updateOrderStatus_Admin,
+} from "@/service/AdminService";
 import { Spinner } from "../ui/spinner";
 import dayjs from "dayjs";
 import {
@@ -52,6 +56,8 @@ export function OrdersTable() {
   };
 
   const [loading, setLoading] = React.useState<boolean>(false);
+  const [loadingStatus, setLoadingStatus] = React.useState<boolean>(false);
+  const [newStatus, setNewStatus] = React.useState<string>("Shipping");
   const [ordersData, setOrdersData] = React.useState<OrderType>();
   const [openDialog, setOpenDialog] = React.useState<boolean>(false);
   const [openStatusDialog, setOpenStatusDialog] =
@@ -78,6 +84,32 @@ export function OrdersTable() {
     };
     fetchDataOrders();
   }, []);
+
+  const updateStatusOrder = async (orderId: string, newStatus: string) => {
+    try {
+      setLoadingStatus(true);
+      const response = await updateOrderStatus_Admin(orderId, newStatus);
+      if (response) {
+        toast.success("Order status updated successfully.");
+        setLoadingStatus(false);
+      }
+    } catch (error) {
+      setLoadingStatus(false);
+      console.error("Error updating order status:", error);
+      toast.error("Failed to update order status.");
+    }
+  };
+
+  const cancelOrder = async (orderId: string) => {
+    try {
+      const response = await cancelOrder_Admin(orderId);
+      if (response) {
+        toast.success("Order cancelled successfully.");
+      }
+    } catch (error) {
+      toast.error("Failed to cancel order.");
+    }
+  };
 
   return (
     <div className="border rounded-md">
@@ -146,31 +178,31 @@ export function OrdersTable() {
                         >
                           View Details
                         </DropdownMenuItem>
-                        <DropdownMenuItem
-                          onClick={() => {
-                            setOpenStatusDialog(true);
-                            setSelectedOrder(order.order_id);
-                          }}
-                        >
-                          Update Status
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                          onClick={() =>
-                            toast.warning("Cancel this order, sure?", {
-                              action: {
-                                label: "Yes, Cancel",
-                                onClick: () => {
-                                  toast.success(
-                                    "Order cancelled successfully."
-                                  );
+                        {order.status !== "Cancelled" && (
+                          <DropdownMenuItem
+                            onClick={() => {
+                              setOpenStatusDialog(true);
+                              setSelectedOrder(order.order_id);
+                            }}
+                          >
+                            Update Status
+                          </DropdownMenuItem>
+                        )}
+                        {order.status !== "Cancelled" && (
+                          <DropdownMenuItem
+                            onClick={() =>
+                              toast.warning("Cancel this order, sure?", {
+                                action: {
+                                  label: "Yes, Cancel",
+                                  onClick: () => cancelOrder(order.order_id),
                                 },
-                              },
-                            })
-                          }
-                          className="text-red-500"
-                        >
-                          Cancel Order
-                        </DropdownMenuItem>
+                              })
+                            }
+                            className="text-red-500"
+                          >
+                            Cancel Order
+                          </DropdownMenuItem>
+                        )}
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>
@@ -312,10 +344,13 @@ export function OrdersTable() {
             />
             <Label htmlFor="orderStatus">Order Status</Label>
             <select
+              onChange={(e) => setNewStatus(e.target.value)}
               id="orderStatus"
               className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
-              <option value="Shipping">Shipping</option>
+              <option selected value="Shipping">
+                Shipping
+              </option>
               <option value="Shipped">Shipped</option>
             </select>
           </div>
@@ -325,7 +360,14 @@ export function OrdersTable() {
                 Close
               </Button>
             </DialogClose>
-            <Button type="button" variant="default">
+            <Button
+              onClick={() => {
+                updateStatusOrder(selectedOrder, newStatus);
+                setOpenStatusDialog(false);
+              }}
+              type="button"
+              variant="default"
+            >
               Save
             </Button>
           </DialogFooter>
