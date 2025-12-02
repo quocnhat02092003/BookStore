@@ -1,3 +1,5 @@
+import { UserType } from "./UserType";
+
 export type OrderType = {
   data: {
     order_id: string;
@@ -8,6 +10,12 @@ export type OrderType = {
     user_id: string;
     updated_at: string;
     orderItems: OrderItemType[];
+    user?: {
+      id: string;
+      fullName: string;
+      email: string;
+      role: string;
+    };
   }[];
   message: string;
   status: number;

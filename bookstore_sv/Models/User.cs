@@ -10,6 +10,7 @@ public class User
     public string? PhoneNumber { get; set; }
     public UserRole Role { get; set; } = UserRole.User;
     public bool IsEmailVerified { get; set; } = false;
+    public string Status { get; set; } = "Active";
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;

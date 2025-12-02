@@ -14,6 +14,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { pageMenuDropdown } from "@/data/page_menu_dropdown";
 import { useUser } from "@/context/UserContext";
+import { Avatar, AvatarImage } from "../ui/avatar";
 
 const Header = () => {
   const [isActiveTab, setIsActiveTab] = React.useState<string>("home");
@@ -132,10 +133,12 @@ const Header = () => {
           </Link>
         ) : (
           <Link className="hover:text-blue-500 duration-300" href="/my-account">
-            <img
-              src="https://w7.pngwing.com/pngs/205/731/png-transparent-default-avatar.png"
-              className="w-[60px]"
-            />
+            <Avatar className="h-8 w-8">
+              <AvatarImage
+                src="https://github.com/shadcn.png"
+                alt="admin avatar"
+              />
+            </Avatar>
           </Link>
         )}
         {!onOpenMenu ? (

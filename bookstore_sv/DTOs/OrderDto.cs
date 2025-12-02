@@ -10,4 +10,5 @@ public class OrderDto
     public DateTime created_at { get; set; } = DateTime.UtcNow;
     public DateTime updated_at { get; set; } = DateTime.UtcNow;
     public ICollection<OrderItemDto> OrderItems { get; set; } = new List<OrderItemDto>();
+    public UserDto? User { get; set; }
 }

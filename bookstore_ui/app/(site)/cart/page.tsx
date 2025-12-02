@@ -254,7 +254,17 @@ const page = () => {
                       <TableCell className="text-center border-r">
                         <Button
                           variant="outline"
-                          onClick={() => handleRemoveItem(item.product_id)}
+                          onClick={() =>
+                            toast("Removed item", {
+                              description:
+                                "The item has been removed from your cart.",
+                              action: {
+                                label: "Yes",
+                                onClick: () =>
+                                  handleRemoveItem(item.product_id),
+                              },
+                            })
+                          }
                         >
                           <Trash className="h-4 w-4" />
                         </Button>

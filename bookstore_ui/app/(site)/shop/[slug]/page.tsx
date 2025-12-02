@@ -1,6 +1,5 @@
 "use client";
 import BookCardProduct from "@/components/card/BookCardProduct";
-import { allBookCollection } from "@/data/book_collection/all_book_collection";
 import { AnimatePresence, motion } from "motion/react";
 import { useParams } from "next/navigation";
 import React from "react";

@@ -64,33 +64,61 @@ const page = ({ children }: { children: React.ReactNode }) => {
           <p className=" font-semibold text-slate-600">No products found</p>
         </div>
       )}
-      {productsShop?.totalPages && productsShop.totalPages > 3 && (
+      {productsShop && productsShop.totalPages > 1 && (
         <div className="mt-20">
           <Pagination>
             <PaginationContent>
+              {/* Previous */}
               <PaginationItem>
-                <PaginationPrevious href="#" />
+                <PaginationPrevious
+                  href="#"
+                  onClick={() => page > 1 && setPage(page - 1)}
+                />
               </PaginationItem>
-              {productsShop &&
-                productsShop.totalPages &&
-                productsShop.totalPages > 0 &&
-                Array.from({ length: productsShop.totalPages }, (_, i) => (
-                  <PaginationItem key={i}>
+
+              {/* Pages */}
+              {Array.from({ length: productsShop.totalPages }, (_, index) => {
+                const pageIndex = index + 1;
+
+                // Nếu tổng trang > 5 → ẩn bớt & chỉ hiển thị logic cần thiết
+                if (productsShop.totalPages > 5) {
+                  // Hiển thị: 1, current-1, current, current+1, last page
+                  if (
+                    pageIndex !== 1 &&
+                    pageIndex !== productsShop.totalPages &&
+                    Math.abs(pageIndex - page) > 1
+                  ) {
+                    return null;
+                  }
+                }
+
+                return (
+                  <PaginationItem key={pageIndex}>
                     <PaginationLink
-                      onClick={() => setPage(i + 1)}
-                      isActive={i + 1 === page}
+                      onClick={() => setPage(pageIndex)}
+                      isActive={pageIndex === page}
                     >
-                      {i + 1}
+                      {pageIndex}
                     </PaginationLink>
                   </PaginationItem>
-                ))}
-              {productsShop && productsShop.totalPages > 3 && (
+                );
+              })}
+
+              {/* Ellipsis khi total > 5 */}
+              {productsShop.totalPages > 5 && (
                 <PaginationItem>
                   <PaginationEllipsis />
                 </PaginationItem>
               )}
+
+              {/* Next */}
               <PaginationItem>
-                <PaginationNext href="#" />
+                <PaginationNext
+                  href="#"
+                  onClick={() =>
+                    page < productsShop.totalPages && setPage(page + 1)
+                  }
+                />
               </PaginationItem>
             </PaginationContent>
           </Pagination>
