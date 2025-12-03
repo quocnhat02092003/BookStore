@@ -183,6 +183,3 @@ This project is for educational purposes.
 ---
 
 Made with ❤️ by [quocnhat02092003](https://github.com/quocnhat02092003)
-=======
-Thread
->>>>>>> c1990d94cf30c7316dab1c6fee4309dcda3c4144
