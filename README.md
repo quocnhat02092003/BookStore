@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # BookStore
 
 A full-stack e-commerce bookstore application built with modern technologies.
