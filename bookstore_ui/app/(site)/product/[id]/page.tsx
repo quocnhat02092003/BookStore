@@ -8,7 +8,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { useUser } from "@/context/UserContext";
-import { allBookData } from "@/data/book_data/all_book_data";
 import { AddProductToCart } from "@/service/CartService";
 import { getProductInformationByProductId } from "@/service/ProductService";
 import { ProductInformationResponseType } from "@/type/ResponseType/ProductInformationType";
@@ -28,10 +27,6 @@ const page = () => {
     React.useState<ProductInformationResponseType>();
 
   React.useEffect(() => {
-    document.title = `${
-      allBookData.find((book) => book.work_id === id)?.title
-    } - BookStore`;
-
     const fetchDataProductInformation = async () => {
       setLoading(true);
       try {
@@ -43,8 +38,9 @@ const page = () => {
         console.error("Error fetching Product Information:", error);
       }
     };
-
     fetchDataProductInformation();
+
+    document.title = `${productInformation?.data.title} - BookStore`;
   }, [id]);
 
   const router = useRouter();
