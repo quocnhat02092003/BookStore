@@ -33,19 +33,19 @@ import {
   Area,
 } from "recharts";
 
-const chartConfig = {
-  orderStatus: {
-    label: "orderStatus",
+const pieChartConfig = {
+  count: {
+    label: "Count",
   },
-  Paid: {
+  paid: {
     label: "Paid",
-    color: "var(--chart-1)",
+    color: "#0088FE",
   },
-  Cancelled: {
+  cancelled: {
     label: "Cancelled",
     color: "var(--chart-2)",
   },
-  Pending: {
+  pending: {
     label: "Pending",
     color: "var(--chart-3)",
   },
@@ -138,7 +138,9 @@ export default function DashboardPage() {
             <ShoppingCart className="text-gray-500" />
           </CardHeader>
           <CardContent>
-            <p className="text-3xl font-bold">420</p>
+            <p className="text-3xl font-bold">
+              {localStorage.getItem("ordersDataLength")}
+            </p>
           </CardContent>
         </Card>
 
@@ -149,7 +151,9 @@ export default function DashboardPage() {
             <Users className="text-gray-500" />
           </CardHeader>
           <CardContent>
-            <p className="text-3xl font-bold">98</p>
+            <p className="text-3xl font-bold">
+              {localStorage.getItem("usersDataLength")}
+            </p>
           </CardContent>
         </Card>
       </div>
@@ -163,7 +167,7 @@ export default function DashboardPage() {
           </CardHeader>
           <CardContent className="flex-1 pb-0">
             <ChartContainer
-              config={chartConfig}
+              config={pieChartConfig}
               className="mx-auto aspect-square max-h-[250px]"
             >
               <PieChart>

@@ -22,4 +22,5 @@ export type DataUserResponse = {
   username: string;
   fullName: string;
   message: string;
+  role: number;
 };

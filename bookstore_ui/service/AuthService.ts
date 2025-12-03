@@ -2,7 +2,6 @@ import { DataUserResponse, LoginResponse, RegisterResponse, User } from "@/type/
 import { API } from "./RefreshTokenService";
 
 export const registerUser = async (data: User) : Promise<RegisterResponse> => {
-    console.log(process.env.API_URL);
     const response = await API.post<RegisterResponse>(`/api/auth/register`, data);
     if (response.status !== 200) {
         throw new Error(response.data.message);

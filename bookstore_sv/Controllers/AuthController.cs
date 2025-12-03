@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using bookstore_sv.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 
 [ApiController]
@@ -56,6 +57,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("login")]
+    [EnableRateLimiting("LoginLimiter")]
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
         //Check email already exists
@@ -229,6 +231,7 @@ public class AuthController : ControllerBase
             user.Email,
             user.FullName,
             user.Username,
+            user.Role,
             message = "User information retrieved successfully"
         });
     }
