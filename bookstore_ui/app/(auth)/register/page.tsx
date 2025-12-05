@@ -41,11 +41,9 @@ const RegisterPage = () => {
       });
       router.push("/login");
       setIsLoading(false);
-    } catch (error: any) {
+    } catch (error) {
       setIsLoading(false);
-      const errorMessage =
-        error?.response?.data?.message || "Something went wrong";
-      enqueueSnackbar(errorMessage, {
+      enqueueSnackbar("Something went wrong", {
         variant: "error",
         anchorOrigin: { vertical: "top", horizontal: "right" },
       });

@@ -213,7 +213,7 @@ const Header = () => {
               {pageMenuDropdown.map((item) => (
                 <Link
                   key={item.title}
-                  href={item.href as any}
+                  href={item.href}
                   className="p-2 border-b hover:text-green-700 hover:border-green-700 duration-500"
                 >
                   {item.title}

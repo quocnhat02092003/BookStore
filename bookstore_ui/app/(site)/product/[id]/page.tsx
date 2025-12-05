@@ -59,8 +59,8 @@ const ProductPage = () => {
         });
         setLoadingAddToCart(false);
       }
-    } catch (error: any) {
-      enqueueSnackbar(error.response.data.message, {
+    } catch (error) {
+      enqueueSnackbar("Something went wrong", {
         variant: "error",
         anchorOrigin: { vertical: "bottom", horizontal: "right" },
       });

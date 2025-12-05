@@ -39,11 +39,8 @@ const LoginPage = () => {
         anchorOrigin: { vertical: "top", horizontal: "right" },
       });
       router.push("/");
-    } catch (error: any) {
-      const errorMessage =
-        error?.response?.data?.message || "Something went wrong";
-
-      enqueueSnackbar(errorMessage, {
+    } catch (error) {
+      enqueueSnackbar("Something went wrong", {
         variant: "error",
         anchorOrigin: { vertical: "top", horizontal: "right" },
       });

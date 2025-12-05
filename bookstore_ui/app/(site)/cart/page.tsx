@@ -132,10 +132,8 @@ const CartPage = () => {
                 Router.push("/checkout");
               }, 3000);
             }
-          } catch (error: any) {
-            const errorMessage =
-              error?.response?.data?.message || "Something went wrong";
-            enqueueSnackbar(errorMessage, {
+          } catch (error) {
+            enqueueSnackbar("Something went wrong", {
               variant: "error",
               anchorOrigin: { vertical: "bottom", horizontal: "right" },
             });
