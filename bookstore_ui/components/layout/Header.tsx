@@ -96,10 +96,9 @@ const Header = () => {
                 {pageMenuDropdown.map((item) => (
                   <li
                     key={item.title}
-                    onClick={() => router.push(item.href)}
                     className="p-5 hover:bg-gray-200 rounded-t-md"
                   >
-                    {item.title}
+                    <Link href={{ pathname: item.href }}>{item.title}</Link>
                   </li>
                 ))}
               </ul>
@@ -213,7 +212,9 @@ const Header = () => {
               {pageMenuDropdown.map((item) => (
                 <Link
                   key={item.title}
-                  href={item.href}
+                  href={{
+                    pathname: item.href,
+                  }}
                   className="p-2 border-b hover:text-green-700 hover:border-green-700 duration-500"
                 >
                   {item.title}

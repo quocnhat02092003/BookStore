@@ -1,4 +1,4 @@
-export const pageMenuDropdown = [
+export const pageMenuDropdown: NavItem[] = [
   {
     title: "About Us",
     href: "/about",
@@ -16,3 +16,8 @@ export const pageMenuDropdown = [
     href: "/about",
   },
 ];
+
+type NavItem = {
+  title: string;
+  href: string;
+};
