@@ -4,7 +4,7 @@ import React from "react";
 const FeedbackCard = () => {
   return (
     <div className="bg-white p-10 rounded-lg">
-      <Link href="/author/1">
+      <Link href="/">
         <p className="text-lg text-start">
           Bookshop PQN is my go-to place for all my academic needs. Their staffs
           always help me.
