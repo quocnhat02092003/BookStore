@@ -9,8 +9,8 @@ export const GetAllCart = async () => {
     return response.data;
 };
 
-export const AddProductToCart = async (productId: string) => {
-    const response = await API.post(`/api/cart/add-to-cart?product_id=${productId}`);
+export const AddProductToCart = async (productId: string, quantity: number) => {
+    const response = await API.post(`/api/cart/add-to-cart?product_id=${productId}&quantity=${quantity}`);
     if (response.status !== 200) {
         throw new Error("Failed to add product to cart");
     }

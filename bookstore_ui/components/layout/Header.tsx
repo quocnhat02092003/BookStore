@@ -73,9 +73,11 @@ const Header = () => {
             </div>
           )}
         </li>
-        <Link href="/shop" className="cursor-pointer">
-          Shop
-        </Link>
+        <li>
+          <Link href="/shop" className="cursor-pointer">
+            Shop
+          </Link>
+        </li>
 
         {/* Pages */}
 
@@ -93,6 +95,7 @@ const Header = () => {
               <ul className="w-48">
                 {pageMenuDropdown.map((item) => (
                   <li
+                    key={item.title}
                     onClick={() => router.push(item.href as any)}
                     className="p-5 hover:bg-gray-200 rounded-t-md"
                   >
@@ -109,6 +112,14 @@ const Header = () => {
         <Link href="/contact" className="cursor-pointer">
           Contact
         </Link>
+        {user.user?.role === 0 && (
+          <Link
+            className="hover:text-blue-500 duration-300 text-blue-500"
+            href="/admin"
+          >
+            Dashboard
+          </Link>
+        )}
       </ul>
       <div className="flex items-center space-x-2">
         <Button
@@ -118,11 +129,11 @@ const Header = () => {
         >
           Search...
         </Button>
-        {
+        {user.user?.role !== 0 && (
           <Link href={`${user.user ? "/cart" : "/login"}`}>
             <ShoppingCart />
           </Link>
-        }
+        )}
         {!user.user ? (
           <Link className="hover:text-blue-500 duration-300" href="/login">
             <UserRound />
@@ -154,8 +165,10 @@ const Header = () => {
         )}
       </div>
       {onOpenMenu && (
-        <ul className="lg:hidden absolute bg-gray-100 top-[60px] w-full left-0 space-y-6 px-4 text-slate-600 py-4">
-          <li className="cursor-pointer">Home </li>
+        <ul className="lg:hidden absolute bg-gray-100 top-[60px] w-full left-0 space-y-6 px-4 text-slate-600 py-4 flex flex-col">
+          <Link href="/" className="cursor-pointer">
+            Home{" "}
+          </Link>
           <li
             className="inline-flex items-center cursor-pointer relative"
             onClick={() => setIsOnClickCategory(!isOnClickCategory)}
@@ -177,7 +190,6 @@ const Header = () => {
                     </Link>
                   ))}
                 </div>
-                <Button size="sm">View All Categories</Button>
               </div>
               <div className="max-lg:hidden">
                 <img
@@ -187,7 +199,9 @@ const Header = () => {
               </div>
             </div>
           )}
-          <li className="cursor-pointer">Shop</li>
+          <Link href="/shop" className="cursor-pointer">
+            Shop
+          </Link>
           <li
             className="inline-flex items-center cursor-pointer"
             onClick={() => setIsOnClickPages(!isOnClickPages)}
@@ -198,7 +212,7 @@ const Header = () => {
             <ul className="flex flex-col max-md:text-sm w-fit">
               {pageMenuDropdown.map((item) => (
                 <Link
-                  key={item.href}
+                  key={item.title}
                   href={item.href as any}
                   className="p-2 border-b hover:text-green-700 hover:border-green-700 duration-500"
                 >
@@ -207,8 +221,20 @@ const Header = () => {
               ))}
             </ul>
           )}
-          <li className="cursor-pointer">Blog</li>
-          <li className="cursor-pointer">Contact</li>
+          <Link href="/blog" className="cursor-pointer">
+            Blog
+          </Link>
+          <Link href="/contact" className="cursor-pointer">
+            Contact
+          </Link>
+          {user.user?.role === 0 && (
+            <Link
+              className="hover:text-blue-500 duration-300 text-blue-500"
+              href="/admin"
+            >
+              Dashboard
+            </Link>
+          )}
         </ul>
       )}
     </div>

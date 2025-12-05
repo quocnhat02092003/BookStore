@@ -74,13 +74,18 @@ namespace bookstore_sv.Controllers
 
         [HttpPost("add-to-cart")]
         [Authorize]
-        public async Task<IActionResult> AddToCart([FromQuery] string product_id)
+        public async Task<IActionResult> AddToCart([FromQuery] string product_id, [FromQuery] int quantity)
         {
             // Get user ID from the authenticated user's claims
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId == null)
             {
                 return Unauthorized(new { message = "User not authenticated" });
+            }
+
+            if (quantity < 1 || quantity > 10)
+            {
+                return BadRequest(new { message = "Quantity must be at least 1 and at most 10" });
             }
 
             // Check if the user has an existing cart that is not checked out
@@ -92,7 +97,7 @@ namespace bookstore_sv.Controllers
                     id = Guid.NewGuid(),
                     user_id = Guid.Parse(userId),
                     created_at = DateTime.UtcNow,
-                    updated_at = DateTime.UtcNow
+                    updated_at = DateTime.UtcNow,
                 };
                 await _context.Carts.AddAsync(cart);
                 await _context.SaveChangesAsync();
@@ -109,7 +114,11 @@ namespace bookstore_sv.Controllers
             var cartItem = _context.CartItems.FirstOrDefault(ci => ci.product_id == product_id && ci.cart_id == cart.id);
             if (cartItem != null)
             {
-                cartItem.quantity += 1;
+                if (cartItem.quantity + quantity > 10)
+                {
+                    return BadRequest(new { message = "Total quantity for this product in cart cannot exceed 10" });
+                }
+                cartItem.quantity += quantity;
                 cartItem.updated_at = DateTime.UtcNow;
             }
             else
@@ -119,7 +128,7 @@ namespace bookstore_sv.Controllers
                     id = Guid.NewGuid(),
                     product_id = product_id,
                     cart_id = cart.id,
-                    quantity = 1,
+                    quantity = quantity,
                     created_at = DateTime.UtcNow,
                     updated_at = DateTime.UtcNow
                 };

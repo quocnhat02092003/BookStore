@@ -1,4 +1,5 @@
 import { ChevronLeft } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
@@ -21,6 +22,7 @@ export default function AuthLayout({
           <div className="flex-1">{children}</div>
           <div className="max-xl:hidden flex-1 rounded-tr-2xl overflow-hidden rounded-br-2xl">
             <img
+              loading="lazy"
               src="https://images.pexels.com/photos/733857/pexels-photo-733857.jpeg?cs=srgb&dl=pexels-tirachard-kumtanom-112571-733857.jpg&fm=jpg" // Đường dẫn đến hình ảnh
               alt="Login"
               className="object-cover w-[600px] h-[600px]"

@@ -20,6 +20,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("register")]
+    [EnableRateLimiting("LoginLimiter")]
     public async Task<IActionResult> Register([FromBody] RegisterRequest request)
     {
         //Check if passwords match

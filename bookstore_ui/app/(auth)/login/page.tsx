@@ -99,12 +99,12 @@ const page = () => {
           />
         </button>
       </div>
-      <p className="text-sm">
+      <div className="text-sm">
         Don't have an account?{" "}
         <Link href="/register" className=" hover:text-blue-600 duration-300">
           Register
         </Link>
-      </p>
+      </div>
     </div>
   );
 };

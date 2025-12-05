@@ -19,7 +19,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="vi">
-      <body className={inter.className + "w-screen"}>
+      <body
+        className={inter.className + " w-screen"}
+        suppressHydrationWarning={true}
+      >
         <UserProvider>
           <SnackbarProvider>{children}</SnackbarProvider>
           <Toaster position="top-center" closeButton />

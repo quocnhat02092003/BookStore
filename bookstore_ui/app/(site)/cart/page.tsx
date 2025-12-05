@@ -24,6 +24,7 @@ import debounce from "lodash.debounce";
 import { useRouter } from "next/navigation";
 import { CreateOrder } from "@/service/OrderService";
 import { toast } from "sonner";
+import { useUser } from "@/context/UserContext";
 
 const page = () => {
   // Router instance
@@ -34,6 +35,9 @@ const page = () => {
 
   // Cart items state
   const [cartItems, setCartItems] = React.useState<CartType>();
+
+  //User from useContext
+  const user = useUser();
 
   // Fetch all cart items on component mount
   React.useEffect(() => {
@@ -51,6 +55,12 @@ const page = () => {
     };
     fetchDataAllCart();
   }, []);
+
+  React.useEffect(() => {
+    if (user.user?.role === 0) {
+      Router.push("/");
+    }
+  }, [user.user]);
 
   // Handle quantity change
   const handleChangeQuantity = async (productId: string, quantity: number) => {

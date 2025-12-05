@@ -20,6 +20,7 @@ const page = () => {
   const { id } = useParams<{ id: string }>();
 
   const [loading, setLoading] = React.useState<boolean>(false);
+  const [quantityAdded, setQuantityAdded] = React.useState<number>(1);
   const [loadingAddToCart, setLoadingAddToCart] =
     React.useState<boolean>(false);
 
@@ -32,6 +33,7 @@ const page = () => {
       try {
         const response = await getProductInformationByProductId(id);
         setproductInformation(response);
+        document.title = `${response.data.title} - BookStore`;
         setLoading(false);
       } catch (error) {
         setLoading(false);
@@ -39,8 +41,6 @@ const page = () => {
       }
     };
     fetchDataProductInformation();
-
-    document.title = `${productInformation?.data.title} - BookStore`;
   }, [id]);
 
   const router = useRouter();
@@ -48,10 +48,10 @@ const page = () => {
   //get user from usercontext
   const user = useUser();
 
-  const handleAddToCart = async (product_id: string) => {
+  const handleAddToCart = async (product_id: string, quantity: number) => {
     try {
       setLoadingAddToCart(true);
-      const response = await AddProductToCart(product_id);
+      const response = await AddProductToCart(product_id, quantity);
       if (response) {
         enqueueSnackbar("Product added to cart successfully!", {
           variant: "success",
@@ -59,8 +59,11 @@ const page = () => {
         });
         setLoadingAddToCart(false);
       }
-    } catch (error) {
-      console.error("Error adding product to cart:", error);
+    } catch (error: any) {
+      enqueueSnackbar(error.response.data.message, {
+        variant: "error",
+        anchorOrigin: { vertical: "bottom", horizontal: "right" },
+      });
       setLoadingAddToCart(false);
     }
   };
@@ -72,6 +75,7 @@ const page = () => {
         <div key={productInformation.data.product_id}>
           <div className="lg:flex flex-row gap-10 py-10 lg:px-40 px-10 items-start">
             <img
+              loading="lazy"
               src={`https://covers.openlibrary.org/b/id/${productInformation.data.cover}-L.jpg`}
               alt="Image"
               className="lg:w-[400px] lg:h-[500px] h-[400px] w-[300px] object-cover rounded-md"
@@ -142,31 +146,44 @@ const page = () => {
                   Quantity available:{" "}
                   {productInformation.data.quantity_in_stock || 0}
                 </small>
-                <div className="flex flex-row items-center gap-2">
-                  <input
-                    type="number"
-                    min={1}
-                    max={20}
-                    defaultValue={1}
-                    className="border p-2 rounded-md text-center"
-                  />
-                  <Button
-                    className="bg-blue-600 text-white hover:bg-blue-700 hover:text-white cursor-pointer"
-                    variant="outline"
-                    onClick={
-                      user.user
-                        ? () =>
-                            handleAddToCart(productInformation.data.product_id)
-                        : () => router.push("/login")
-                    }
-                  >
-                    {loadingAddToCart ? (
-                      <Spinner className="w-4" />
-                    ) : (
-                      "Add to Cart"
-                    )}
-                  </Button>
-                </div>
+                {user.user?.role !== 0 && (
+                  <div className="flex flex-row items-center gap-2">
+                    <input
+                      type="number"
+                      min={1}
+                      max={10}
+                      value={quantityAdded}
+                      onChange={(e) => {
+                        setQuantityAdded(parseInt(e.target.value));
+                        if (parseInt(e.target.value) < 1) {
+                          setQuantityAdded(1);
+                        } else if (parseInt(e.target.value) > 10) {
+                          setQuantityAdded(10);
+                        }
+                      }}
+                      className="border p-2 rounded-md text-center"
+                    />
+                    <Button
+                      className="bg-blue-600 text-white hover:bg-blue-700 hover:text-white cursor-pointer"
+                      variant="outline"
+                      onClick={
+                        user.user
+                          ? () =>
+                              handleAddToCart(
+                                productInformation.data.product_id,
+                                quantityAdded
+                              )
+                          : () => router.push("/login")
+                      }
+                    >
+                      {loadingAddToCart ? (
+                        <Spinner className="w-4" />
+                      ) : (
+                        "Add to Cart"
+                      )}
+                    </Button>
+                  </div>
+                )}
                 <div className="flex flex-col gap-3">
                   <div className="flex flex-col gap-3 border p-4 rounded-2xl">
                     {productInformation.data.productInformation.isbn_13 &&
