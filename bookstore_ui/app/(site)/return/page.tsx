@@ -7,24 +7,22 @@ import React from "react";
 
 const ReturnPage = () => {
   const router = useRouter();
-
-  const session_id = new URLSearchParams(window.location.search).get(
-    "session_id"
-  );
-  console.log("Session ID:", session_id);
+  const [session_id, setSessionId] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     document.title = "Return Page";
+    const id = new URLSearchParams(window.location.search).get("session_id");
+    setSessionId(id);
     const verifyPayment = async () => {
       try {
-        const response = await VerifyPaymentCheckout(session_id);
+        const response = await VerifyPaymentCheckout(id);
         console.log("Payment verification response:", response);
       } catch (error) {
         console.error("Error verifying payment:", error);
       }
     };
     verifyPayment();
-  }, [session_id]);
+  }, []);
 
   return (
     <div className="flex flex-col items-center justify-center mt-20 gap-4">

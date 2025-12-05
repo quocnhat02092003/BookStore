@@ -13,7 +13,9 @@ const SearchBookPage = () => {
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState<ProductType>();
 
-  document.title = "Search Books - BookStore";
+  React.useEffect(() => {
+    document.title = "Search Books - BookStore";
+  }, []);
 
   const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

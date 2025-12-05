@@ -94,6 +94,9 @@ export default function DashboardPage() {
     });
 
   const [loading, setLoading] = React.useState<boolean>(false);
+  const [productsLength, setProductsLength] = React.useState<number>(0);
+  const [ordersDataLength, setOrdersDataLength] = React.useState<number>(0);
+  const [usersDataLength, setUsersDataLength] = React.useState<number>(0);
 
   React.useEffect(() => {
     document.title = "Admin Dashboard - BookStore Management";
@@ -115,6 +118,19 @@ export default function DashboardPage() {
     };
     fetchChartData();
   }, []);
+
+  React.useEffect(() => {
+    try {
+      const p = Number(localStorage.getItem("productsLength") || 0);
+      const o = Number(localStorage.getItem("ordersDataLength") || 0);
+      const u = Number(localStorage.getItem("usersDataLength") || 0);
+      setProductsLength(p);
+      setOrdersDataLength(o);
+      setUsersDataLength(u);
+    } catch (e) {
+      // ignore if not available
+    }
+  }, []);
   return (
     <div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -125,9 +141,7 @@ export default function DashboardPage() {
             <Book className="text-gray-500" />
           </CardHeader>
           <CardContent>
-            <p className="text-3xl font-bold">
-              {localStorage.getItem("productsLength")}
-            </p>
+            <p className="text-3xl font-bold">{productsLength}</p>
           </CardContent>
         </Card>
 
@@ -138,9 +152,7 @@ export default function DashboardPage() {
             <ShoppingCart className="text-gray-500" />
           </CardHeader>
           <CardContent>
-            <p className="text-3xl font-bold">
-              {localStorage.getItem("ordersDataLength")}
-            </p>
+            <p className="text-3xl font-bold">{ordersDataLength}</p>
           </CardContent>
         </Card>
 
@@ -151,9 +163,7 @@ export default function DashboardPage() {
             <Users className="text-gray-500" />
           </CardHeader>
           <CardContent>
-            <p className="text-3xl font-bold">
-              {localStorage.getItem("usersDataLength")}
-            </p>
+            <p className="text-3xl font-bold">{usersDataLength}</p>
           </CardContent>
         </Card>
       </div>
