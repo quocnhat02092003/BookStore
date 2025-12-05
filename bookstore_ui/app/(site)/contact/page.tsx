@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { House, Mail, Phone } from "lucide-react";
 import React from "react";
 
-const page = () => {
+const ContactPage = () => {
   React.useEffect(() => {
     document.title = "Contact Us - BookStoreX";
   }, []);
@@ -44,7 +44,7 @@ const page = () => {
           <h2 className="lg:text-4xl text-2xl">Get in touch</h2>
           <p>
             Contact me directly for inquiries, collaborations, or to share your
-            thoughts. I'm eager to connect and discuss our interests.
+            thoughts. I&apos;m eager to connect and discuss our interests.
           </p>
           <div className="lg:grid grid-cols-2 gap-5">
             <Input required placeholder="Name" className="mt-5" />
@@ -71,4 +71,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default ContactPage;

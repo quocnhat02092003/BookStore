@@ -8,11 +8,11 @@ const DescriptionAndDiscount = () => {
     <div className="xl:grid grid-cols-5 items-center gap-5 text-white lg:mx-20 mb-10 max-xl:space-y-8">
       <div className="flex flex-col justify-center bg-[url('https://cdn.prod.website-files.com/66ab8282560ac2178fdcc6c8/6708b1d3e2f73cc8f50dc092_simple-flat-vector-background-with-books-glass%201.png')] bg-cover bg-right h-[600px] max-md:h-[300px] col-span-3 px-20 max-xl:px-8 lg:rounded-4xl">
         <h2 className="text-4xl max-2xl:text-xl font-bold">
-          BookShop PhamQuocNhat's Top 5 Most Memorable Moments
+          BookShop PhamQuocNhat&apos;s Top 5 Most Memorable Moments
         </h2>
         <p className="mt-2 w-[700px] max-xl:w-full max-xl:truncate">
-          Explore BookShop PhamQuocNhat's unforgettable highlights, from author
-          events to exclusive book launches and community celebrations.
+          Explore BookShop PhamQuocNhat&apos;s unforgettable highlights, from
+          author events to exclusive book launches and community celebrations.
         </p>
         <Link href="/shop/best-seller">
           <Button

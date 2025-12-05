@@ -14,11 +14,11 @@ const Custom404 = () => {
         404
       </h1>
       <h3 className="text-2xl font-semibold text-center text-white">
-        Oops, We can't seem to find the page what you are looking for.
+        Oops, We can&apos;t seem to find the page what you are looking for.
       </h3>
       <p className="text-center text-white">
-        Oops! It looks like the page you're searching for has taken a detour.
-        Let's guide you back to the heart of PQN
+        Oops! It looks like the page you&apos;re searching for has taken a
+        detour. Let&apos;s guide you back to the heart of PQN
       </p>
       <Link href="/">
         <Button className="w-fit hover:bg-white hover:text-black duration-300">

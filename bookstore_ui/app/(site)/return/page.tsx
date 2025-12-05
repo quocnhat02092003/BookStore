@@ -5,7 +5,7 @@ import { BadgeCheck } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React from "react";
 
-const page = () => {
+const ReturnPage = () => {
   const router = useRouter();
 
   const session_id = new URLSearchParams(window.location.search).get(
@@ -39,4 +39,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default ReturnPage;

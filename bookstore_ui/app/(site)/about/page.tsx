@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronRight, CircleCheck } from "lucide-react";
 import React from "react";
 
-const page = () => {
+const Page = () => {
   return (
     <div>
       <div className="lg:flex flex-row items-center px-40 2xl:gap-32 gap-20 lg:py-20 py-10 max-2xl:px-10">
@@ -75,4 +75,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

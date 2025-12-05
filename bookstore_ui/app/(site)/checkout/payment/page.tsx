@@ -7,7 +7,7 @@ import { enqueueSnackbar } from "notistack";
 import React from "react";
 import { toast } from "sonner";
 
-const page = () => {
+const PaymentPage = () => {
   const router = useRouter();
 
   React.useEffect(() => {
@@ -58,4 +58,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default PaymentPage;

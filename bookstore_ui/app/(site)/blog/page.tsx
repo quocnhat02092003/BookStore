@@ -2,7 +2,7 @@
 import BlogCard from "@/components/card/BlogCard";
 import React from "react";
 
-const page = () => {
+const BlogPage = () => {
   React.useEffect(() => {
     document.title = "Blog - BookStoreX";
   }, []);
@@ -20,4 +20,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default BlogPage;

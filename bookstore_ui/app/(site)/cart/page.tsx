@@ -26,7 +26,7 @@ import { CreateOrder } from "@/service/OrderService";
 import { toast } from "sonner";
 import { useUser } from "@/context/UserContext";
 
-const page = () => {
+const CartPage = () => {
   // Router instance
   const Router = useRouter();
 
@@ -87,7 +87,7 @@ const page = () => {
         try {
           await ChangeCartItemQuantity(productId, quantity);
         } catch (err) {
-          console.error(err);
+          toast.error("Failed to update cart item quantity");
         }
       }, 500),
     []
@@ -133,7 +133,9 @@ const page = () => {
               }, 3000);
             }
           } catch (error: any) {
-            enqueueSnackbar(error.message, {
+            const errorMessage =
+              error?.response?.data?.message || "Something went wrong";
+            enqueueSnackbar(errorMessage, {
               variant: "error",
               anchorOrigin: { vertical: "bottom", horizontal: "right" },
             });
@@ -328,4 +330,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default CartPage;

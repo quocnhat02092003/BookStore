@@ -96,7 +96,7 @@ const Header = () => {
                 {pageMenuDropdown.map((item) => (
                   <li
                     key={item.title}
-                    onClick={() => router.push(item.href as any)}
+                    onClick={() => router.push(item.href)}
                     className="p-5 hover:bg-gray-200 rounded-t-md"
                   >
                     {item.title}

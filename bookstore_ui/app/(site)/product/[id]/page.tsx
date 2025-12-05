@@ -16,7 +16,7 @@ import { useParams, useRouter } from "next/navigation";
 import { enqueueSnackbar } from "notistack";
 import React from "react";
 
-const page = () => {
+const ProductPage = () => {
   const { id } = useParams<{ id: string }>();
 
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -332,4 +332,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default ProductPage;

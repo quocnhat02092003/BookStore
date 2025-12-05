@@ -40,7 +40,7 @@ const ExploreOurHome = () => {
                   Featured Collection
                 </p>
                 <h2 className="text-4xl lg:text-6xl font-extrabold text-gray-900 leading-tight drop-shadow-sm">
-                  Kids' Books Wonderland
+                  Kids&apos; Books Wonderland
                 </h2>
               </div>
 

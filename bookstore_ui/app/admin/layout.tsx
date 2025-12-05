@@ -16,7 +16,7 @@ export default function AdminLayout({
 
   React.useEffect(() => {
     if (user.user && user.user?.role === 0) {
-      router.push(window.location.href as any);
+      router.push("/admin");
     } else {
       router.push("/");
     }

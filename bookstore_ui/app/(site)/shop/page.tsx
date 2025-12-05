@@ -14,7 +14,7 @@ import { getAllProducts } from "@/service/ProductService";
 import { ProductType } from "@/type/ResponseType/ProductType";
 import React from "react";
 
-const page = ({ children }: { children: React.ReactNode }) => {
+const ShopPage = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = React.useState<boolean>(false);
 
   const [page, setPage] = React.useState<number>(1);
@@ -128,4 +128,4 @@ const page = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default page;
+export default ShopPage;
